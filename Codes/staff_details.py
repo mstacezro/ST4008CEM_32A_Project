@@ -24,8 +24,8 @@ c.execute("""CREATE TABLE manager(
     city text,
     provine text,
     zipcode integer,
-    password text,
-    re_password text,
+    pin integer,
+    re_pin integer,
     manager_id integer
     )""")
 print("Manager Table is is created.")
@@ -47,8 +47,8 @@ c.execute("""CREATE TABLE staff(
     city text,
     provine text,
     zipcode integer,
-    password text,
-    re_password text,
+    pin integer,
+    re_pin integer,
     staff_id integer
     )""")
 print("Staff Table is is created.")
@@ -60,7 +60,8 @@ print("Staff Table is is created.")
 '''CREATE command is used to create a new SQLite database named "product. '''
 c.execute("""CREATE TABLE product(
     product_name text,
-    product_id integer
+    product_id integer,
+    product_rate integer
     )""")
 print("Product Table is is created.")
 
