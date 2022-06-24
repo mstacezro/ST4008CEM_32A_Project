@@ -49,32 +49,34 @@ label.pack(fill=BOTH, expand = YES)
 
 # Create Frame
 login_frame = Frame(root)
-login_frame.pack(pady = 20 )
-
+login_frame.place(x=910,y=172)
+# Top Frame
+top_frame=Frame(login_frame,width=230,height=590)
+top_frame.pack(side=RIGHT)
 # Create textbox labels
-manager_login=Label(root,text="MANAGER LOGIN",width=25, anchor="w",bg='#C04000',fg='white')
-manager_login.pack(ipadx=10,ipady=10)
+manager_login=Label(login_frame,text="MANAGER LOGIN",width=25, anchor="w",bg='#C04000',fg='white')
+manager_login.pack(padx=3,pady=10)
 
-username_label=Label(root,text="Manager ID",width=25, anchor="w",bg='#C04000',fg='white')
-username_label.pack(ipadx=10,ipady=10)
+# username_label=Label(login_frame,text="Manager ID",width=25, anchor="w",bg='#C04000',fg='white')
+# username_label.pack(ipadx=10,ipady=10)
 
-pin_label=Label(root,text="PIN",width=25, anchor="w",bg='#C04000',fg='white')
-pin_label.pack(ipadx=10,ipady=10)
+# pin_label=Label(root,text="PIN",width=25, anchor="w",bg='#C04000',fg='white')
+# pin_label.pack(ipadx=10,ipady=10)
 
-#Create entry boxes
-username_entry=ttk.Entry(root,width=30)
-username_entry.pack(ipadx=10,ipady=10)
+# #Create entry boxes
+# username_entry=ttk.Entry(root,width=30)
+# username_entry.pack(ipadx=10,ipady=10)
 
-pin_entry=ttk.Entry(root,width=30)
-pin_entry.pack(ipadx=10,ipady=10)
+# pin_entry=ttk.Entry(root,width=30)
+# pin_entry.pack(ipadx=10,ipady=10)
 
-# Create sign in button    
-sign_in_btn=Button(root,text="LOGIN",bg='#046307',fg='white',command=NONE)
-sign_in_btn.pack(ipadx=10,ipady=10)
+# # Create sign in button    
+# sign_in_btn=Button(root,text="LOGIN",bg='#046307',fg='white',command=NONE)
+# sign_in_btn.pack(ipadx=10,ipady=10)
 
-# Create sign up  button    
-sign_up_btn=Button(root,text="REGISTER",bg='#046307',fg='white',command=NONE)
-sign_up_btn.pack(ipadx=10,ipady=10)
+# # Create sign up  button    
+# sign_up_btn=Button(root,text="REGISTER",bg='#046307',fg='white',command=NONE)
+# sign_up_btn.pack(ipadx=10,ipady=10)
 
 
 mainloop()
