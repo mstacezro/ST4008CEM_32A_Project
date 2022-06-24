@@ -65,10 +65,10 @@ pin_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial
 pin_label.grid(row=4,column=1, padx=10,pady=10)
 
 #Create entry boxes
-username_entry=ttk.Entry(login_frame,width=37)
+username_entry=ttk.Entry(login_frame,font="arial 15 bold",width=27)
 username_entry.grid(row=3,column=2,padx=10,pady=10)
 
-pin_entry=ttk.Entry(login_frame,width=37,show="*")
+pin_entry=ttk.Entry(login_frame,font="arial 15 bold",width=27,show="*")
 pin_entry.grid(row=4,column=2,padx=10,pady=10)
 
 # Create sign in button    
@@ -79,8 +79,8 @@ sign_in_btn.grid(row=6,column=1,columnspan=2)
 sign_up_btn=Button(login_frame,text="REGISTER",font=('Arial','15','bold'),anchor="c",bg='#046307',fg='white',width= 15,command=NONE)
 sign_up_btn.grid(row=7,column=1,columnspan=2)
 
-notice_lBEL=Label(login_frame,text="* NOTE: Registration under Manager only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
-notice_lBEL.grid(row=8,column=0,columnspan=4)
+notice_label=Label(login_frame,text="* NOTE: Registration under Manager only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
+notice_label.grid(row=8,column=0,columnspan=4)
 
 
 
