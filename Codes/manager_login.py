@@ -1,44 +1,80 @@
 # import tkinter module to the program
+from cgitb import text
 from tkinter import*
 from tkinter import ttk
-
+from PIL import Image, ImageTk
 
 # create an application window
 root= Tk()
 #create the root title for the project
 root.title("MANAGER LOGIN")
 
-#dimension, background color of project
-root.geometry("535x700")
-root.resizable(0,0)     #nonresizable, for resizable (True,True)
-root.config(bg='#3090C7')
+# #dimension, background color of project
+# root.geometry("535x700")
+# root.resizable(0,0)     #nonresizable, for resizable (True,True)
+# root.config(bg='#3090C7')
 
+#default fullscreen
+root.attributes('-fullscreen',True)
 #icon 
-##NOTE:  root.iconbitmap("*.ico") 
+# root.iconbitmap("logo.ico") 
+# from PIL import Image, ImageTk
+# logo = ImageTk.PhotoImage(file='/home/mstacezro/Documents/ST4008CEM_32A_LED_Project/Code/logo_cristy.png')
+# root.tk.call('wm', 'iconphoto', root._w, logo)
+
+
+# #setting background image
+# my_image=ImageTk.PhotoImage(Image.open("log_screen.jpg"))  
+# #create a label
+# my_label=Label(image=my_image)
+# my_label.place(x = 0, y = 0)
+
+
+def resize_image(event):
+    new_width = event.width
+    new_height = event.height
+    image = copy_of_image.resize((new_width, new_height))
+    photo = ImageTk.PhotoImage(image)
+    label.config(image = photo)
+    label.image = photo #avoid garbage collection
+
+image = Image.open('log_screen.jpg')
+copy_of_image = image.copy()
+photo = ImageTk.PhotoImage(image)
+label = ttk.Label(root, image = photo)
+label.bind('<Configure>', resize_image)
+label.pack(fill=BOTH, expand = YES)
+
+
+
+# Create Frame
+login_frame = Frame(root)
+login_frame.pack(pady = 20 )
 
 # Create textbox labels
-manager_login=Label(root,text="Manager Login",width=25, anchor="w",bg='#C04000',fg='white')
-manager_login.grid(row=1,column=0,padx=20)
+manager_login=Label(root,text="MANAGER LOGIN",width=25, anchor="w",bg='#C04000',fg='white')
+manager_login.pack(ipadx=10,ipady=10)
 
-username_label=Label(root,text="Username",width=25, anchor="w",bg='#C04000',fg='white')
-username_label.grid(row=2,column=0)
+username_label=Label(root,text="Manager ID",width=25, anchor="w",bg='#C04000',fg='white')
+username_label.pack(ipadx=10,ipady=10)
 
-password_label=Label(root,text="Password",width=25, anchor="w",bg='#C04000',fg='white')
-password_label.grid(row=3,column=0)
+pin_label=Label(root,text="PIN",width=25, anchor="w",bg='#C04000',fg='white')
+pin_label.pack(ipadx=10,ipady=10)
 
 #Create entry boxes
-username_entry=Entry(root,width=30)
-username_entry.grid(row=2,column=1)
+username_entry=ttk.Entry(root,width=30)
+username_entry.pack(ipadx=10,ipady=10)
 
-password_entry=Entry(root,width=30)
-password_entry.grid(row=3,column=1)
+pin_entry=ttk.Entry(root,width=30)
+pin_entry.pack(ipadx=10,ipady=10)
 
 # Create sign in button    
 sign_in_btn=Button(root,text="LOGIN",bg='#046307',fg='white',command=NONE)
-sign_in_btn.grid(row=4,column=0,columnspan=2,pady=10,padx=10,ipadx=120)
+sign_in_btn.pack(ipadx=10,ipady=10)
 
 # Create sign up  button    
 sign_up_btn=Button(root,text="REGISTER",bg='#046307',fg='white',command=NONE)
-sign_up_btn.grid(row=5,column=0,columnspan=2,pady=10,padx=10,ipadx=120)
+sign_up_btn.pack(ipadx=10,ipady=10)
 
 
+mainloop()
