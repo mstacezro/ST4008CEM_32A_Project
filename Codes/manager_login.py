@@ -1,18 +1,19 @@
 # import tkinter module to the program
 from cgitb import text
+from textwrap import fill
 from tkinter import*
 from tkinter import ttk
+from tkinter import font
+from tkinter.font import BOLD
 from PIL import Image, ImageTk
+from click import style
 
 # create an application window
 root= Tk()
 #create the root title for the project
 root.title("MANAGER LOGIN")
 
-# #dimension, background color of project
-# root.geometry("535x700")
-# root.resizable(0,0)     #nonresizable, for resizable (True,True)
-# root.config(bg='#3090C7')
+
 
 #default fullscreen
 root.attributes('-fullscreen',True)
@@ -23,13 +24,8 @@ root.attributes('-fullscreen',True)
 # root.tk.call('wm', 'iconphoto', root._w, logo)
 
 
-# #setting background image
-# my_image=ImageTk.PhotoImage(Image.open("log_screen.jpg"))  
-# #create a label
-# my_label=Label(image=my_image)
-# my_label.place(x = 0, y = 0)
 
-
+#setting photo as background
 def resize_image(event):
     new_width = event.width
     new_height = event.height
@@ -48,35 +44,44 @@ label.pack(fill=BOTH, expand = YES)
 
 
 # Create Frame
-login_frame = Frame(root)
+login_frame = Frame(root,width=230,height=590)
 login_frame.place(x=910,y=172)
-# Top Frame
-top_frame=Frame(login_frame,width=230,height=590)
-top_frame.pack(side=RIGHT)
+
+
 # Create textbox labels
-manager_login=Label(login_frame,text="MANAGER LOGIN",width=25, anchor="w",bg='#C04000',fg='white')
-manager_login.pack(padx=3,pady=10)
 
-# username_label=Label(login_frame,text="Manager ID",width=25, anchor="w",bg='#C04000',fg='white')
-# username_label.pack(ipadx=10,ipady=10)
+manager_profile=Image.open("manager.png")
+resized_image=manager_profile.resize((200,200))
+converted_image=ImageTk.PhotoImage(resized_image)
+myLabel=Label(login_frame,image=converted_image, text="MANAGER LOGIN",font=('Arial','30','bold'),compound='top')
 
-# pin_label=Label(root,text="PIN",width=25, anchor="w",bg='#C04000',fg='white')
-# pin_label.pack(ipadx=10,ipady=10)
+myLabel.grid(row=0,column=1,columnspan=2)
 
-# #Create entry boxes
-# username_entry=ttk.Entry(root,width=30)
-# username_entry.pack(ipadx=10,ipady=10)
 
-# pin_entry=ttk.Entry(root,width=30)
-# pin_entry.pack(ipadx=10,ipady=10)
+username_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="Manager ID",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
+username_label.grid(row=3,column=1, padx=10,pady=10)
 
-# # Create sign in button    
-# sign_in_btn=Button(root,text="LOGIN",bg='#046307',fg='white',command=NONE)
-# sign_in_btn.pack(ipadx=10,ipady=10)
+pin_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
+pin_label.grid(row=4,column=1, padx=10,pady=10)
 
-# # Create sign up  button    
-# sign_up_btn=Button(root,text="REGISTER",bg='#046307',fg='white',command=NONE)
-# sign_up_btn.pack(ipadx=10,ipady=10)
+#Create entry boxes
+username_entry=ttk.Entry(login_frame,width=37)
+username_entry.grid(row=3,column=2,padx=10,pady=10)
+
+pin_entry=ttk.Entry(login_frame,width=37,show="*")
+pin_entry.grid(row=4,column=2,padx=10,pady=10)
+
+# Create sign in button    
+sign_in_btn=Button(login_frame,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+sign_in_btn.grid(row=6,column=1,columnspan=2)
+
+# Create sign up  button    
+sign_up_btn=Button(login_frame,text="REGISTER",font=('Arial','15','bold'),anchor="c",bg='#046307',fg='white',width= 15,command=NONE)
+sign_up_btn.grid(row=7,column=1,columnspan=2)
+
+notice_lBEL=Label(login_frame,text="* NOTE: Registration via Supervisor only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
+notice_lBEL.grid(row=8,column=0,columnspan=4)
+
 
 
 mainloop()
