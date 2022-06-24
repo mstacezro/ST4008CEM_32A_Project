@@ -13,7 +13,7 @@ from tkinter import messagebox
 # create an application window
 root= Tk()
 #create the root title for the project
-root.title("STAFF REGISTRATION")
+root.title("MANAGER REGISTRATION")
 
 
 '''FULLSCREEN'''
@@ -47,7 +47,7 @@ label.pack(fill=BOTH, expand = YES)
 
 # DATABASES
 #create a database or connect to one
-conn=sqlite3.connect('staff_details.db')
+conn=sqlite3.connect('manager_details.db')
 
 #create a cursor
 '''
@@ -61,7 +61,7 @@ def register():
     This function adds user details as data to the database table
     '''
     #connect to the database 
-    conn=sqlite3.connect('staffs.db')
+    conn=sqlite3.connect('managers.db')
 
     #create cursor
     c=conn.cursor()
@@ -83,7 +83,7 @@ def register():
     })
 
     #messagebox to show when datas are added 
-    messagebox.showinfo("Success","New STAFF is registered.")
+    messagebox.showinfo("Success","New manager is registered.")
 
 
     '''
@@ -119,10 +119,10 @@ register_frame.place(x=10,y=172)
 
 '''LABELS'''
 # Create textbox labels and image labels
-manager_profile=Image.open("user_photo.png")
+manager_profile=Image.open("manager.png")
 resized_image=manager_profile.resize((150,150))
 converted_image=ImageTk.PhotoImage(resized_image)
-myLabel=Label(register_frame,image=converted_image, text="STAFF REGISTRATION",font=('Arial','20','bold'),compound='top')
+myLabel=Label(register_frame,image=converted_image, text="MANAGER REGISTRATION",font=('Arial','20','bold'),compound='top')
 
 myLabel.grid(row=0,column=1,columnspan=1)
 
