@@ -53,9 +53,9 @@ login_frame.place(x=910,y=172)
 staff_profile=Image.open("user_photo.png")
 resized_image=staff_profile.resize((200,200))
 converted_image=ImageTk.PhotoImage(resized_image)
-myLabel=Label(login_frame,image=converted_image, text="STAFF LOGIN",font=('Arial','30','bold'),compound='top')
+staff_profile_pic=Label(login_frame,image=converted_image, text="STAFF LOGIN",font=('Arial','30','bold'),compound='top')
+staff_profile_pic.grid(row=0,column=1,columnspan=2)
 
-myLabel.grid(row=0,column=1,columnspan=2)
 
 
 username_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="staff ID",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
@@ -82,6 +82,14 @@ sign_up_btn.grid(row=7,column=1,columnspan=2)
 notice_label=Label(login_frame,text="* NOTE: Registration under Manager only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
 notice_label.grid(row=8,column=0,columnspan=4)
 
+'''
+READ CRUD
+'''
+staff_info=Image.open("information.png")
+resized_info_image=staff_info.resize((90,90))
+converted_info_image=ImageTk.PhotoImage(resized_info_image)
+information=Button(login_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='black',fg='white',compound='top',pady=10, command=NONE)
+information.grid(row=9,column=0,columnspan=3,rowspan=2)
 
 
 mainloop()
