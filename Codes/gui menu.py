@@ -4,6 +4,27 @@ from tkinter import ttk
 root=Tk()
 root.title("Menu")
 notebook=ttk.Notebook(root)#widget that 
+
+#For creating Frame
+root.geometry("500x300")
+f1=Frame(root,bg="grey",borderwidth=9,relief=SUNKEN)
+f1.pack(side=LEFT,fill="y")
+
+l=Label(f1,text="WeLcOmE tO tHe HeLl")
+l.pack()
+f2=Frame(root,bg="grey",borderwidth=9,relief=SUNKEN)
+f2.pack(side=TOP,fill="x")
+
+l=Label(f2,text="WeLcOmE tO tHe HeLl")
+l.pack()
+
+f3=Frame(root,bg="grey",borderwidth=9,relief=SUNKEN)
+f2.pack(side=RIGHT,fill="y")
+
+l=Label(f3,text="WeLcOmE tO tHe HeLl")
+l.pack()
+
+#For creating tabs 
 tab1= Frame(notebook) #tab1
 tab2= Frame(notebook)#tab2
 tab3= Frame(notebook)#tab3
