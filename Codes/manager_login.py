@@ -54,12 +54,12 @@ login_frame.place(x=910,y=172)
 manager_profile=Image.open("manager.png")
 resized_image=manager_profile.resize((200,200))
 converted_image=ImageTk.PhotoImage(resized_image)
-manager_profile_pic=Label(login_frame,image=converted_image, text="manager LOGIN",font=('Arial','30','bold'),compound='top')
+manager_profile_pic=Label(login_frame,image=converted_image, text="MANAGER LOGIN",font=('Arial','30','bold'),compound='top')
 manager_profile_pic.grid(row=0,column=1,columnspan=2)
 
 
 
-username_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="manager ID",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
+username_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="Manager ID",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
 username_label.grid(row=3,column=1, padx=10,pady=10)
 
 pin_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
@@ -80,7 +80,7 @@ sign_in_btn.grid(row=6,column=1,columnspan=2)
 sign_up_btn=Button(login_frame,text="REGISTER",font=('Arial','15','bold'),anchor="c",bg='#046307',fg='white',width= 15,command=NONE)
 sign_up_btn.grid(row=7,column=1,columnspan=2)
 
-notice_label=Label(login_frame,text="* NOTE: Registration under Manager only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
+notice_label=Label(login_frame,text="* NOTE: Registration under Supervisor only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
 notice_label.grid(row=8,column=0,columnspan=4)
 
 '''

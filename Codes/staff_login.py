@@ -59,7 +59,7 @@ staff_profile_pic.grid(row=0,column=1,columnspan=2)
 
 
 
-username_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="staff ID",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
+username_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="Staff ID",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
 username_label.grid(row=3,column=1, padx=10,pady=10)
 
 pin_label=Label(login_frame, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=10, anchor="w",bg='#C04000',fg='white')
