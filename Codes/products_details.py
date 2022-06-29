@@ -2,7 +2,7 @@
 import sqlite3
 # DATABASES
 #create a database or connect to one
-conn=sqlite3.connect('staff.db')
+conn=sqlite3.connect('warehouse.db')
 
 #create a cursor
 '''
@@ -11,6 +11,6 @@ SQLite3 statements, fetch data from the result sets of the queries
 '''
 c=conn.cursor()
 
-'''CREATE command is used to create a new SQLite database named "staff". '''
+'''CREATE command is used to create a new SQLite database named "inventory". '''
 
-# print("Staff Table is created")
+# print("Inventory Table is created")
