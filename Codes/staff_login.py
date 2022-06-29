@@ -6,7 +6,8 @@ from tkinter import ttk
 from tkinter import font
 from tkinter.font import BOLD
 from PIL import Image, ImageTk
-from click import style
+# from click import style
+import sqlite3
 
 # create an application window
 root= Tk()
@@ -34,7 +35,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('log_screen.jpg')
+image = Image.open('login_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -85,10 +86,83 @@ notice_label.grid(row=8,column=0,columnspan=4)
 '''
 READ CRUD
 '''
+
+def staff_query():
+    '''
+    SELECT statement is used to fetch the data from a SQLite database table 
+    which returns data in the form of a result table. 
+    These result tables are also called result sets.
+    '''
+
+    info_query=Toplevel()
+    info_query.title("Datas of Staffs")
+    info_query.configure(bg='#B1FB17')
+
+    #connect to main database
+    conn=sqlite3.connect('staff_details.db')
+    c=conn.cursor()
+    
+    #create cursor
+    c=conn.cursor()
+
+    #select query of the database
+    '''
+    OID is auto-incrementing integer value,  
+    that can be automatically assigned to each row of a table created WITH OIDS option.
+    ID can be used as an identity (auto-increment) primary key column
+    '''
+    c.execute("SELECT *,oid FROM staffs")   #table name ????
+
+    #Fetches the existing rows from a result set
+    records=c.fetchall()
+    print(records)
+    
+
+
+    
+    
+    columns = ('first_name', 'last_name', 'Serial_No')
+    
+
+    tree = ttk.Treeview(info_query, columns=columns, show='headings')
+
+    ##dimensions for the columns #BUG # no atomatic sizing
+    # tree.column("# 1",anchor=CENTER, stretch=NO, width=30)
+    # tree.column("# 2",anchor=CENTER, stretch=NO, width=100)
+    tree.column("# 3",anchor=CENTER, stretch=NO, width=30)
+
+    
+
+    # define headings
+    tree.heading('first_name', text='First Name')
+    tree.heading('last_name', text='Last Name')
+    tree.heading('Serial_No',text='S.N.')
+    
+
+
+
+    # query_label=Label(info_query,text=print_records, anchor="w")
+    # query_label.grid(row=8,column=0,columnspan=4)
+
+    # add data to the treeview
+    for record in records:
+        tree.insert('', END, values=record)
+
+    #position of tree label
+    tree.grid(row=0, column=0, sticky=NSEW)
+
+    # vertical scrollbar
+    vbar = ttk.Scrollbar(info_query, orient=VERTICAL, command=tree.yview)
+    tree.configure(yscrollcommand=vbar.set)
+    vbar.grid(row=0, column=1, sticky=NS)
+
+    
+
 staff_info=Image.open("information.png")
 resized_info_image=staff_info.resize((90,90))
 converted_info_image=ImageTk.PhotoImage(resized_info_image)
-information=Button(login_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='black',fg='white',compound='top',pady=10, command=NONE)
+
+information=Button(login_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='black',fg='white',compound='top',pady=10, command=staff_query)
 information.grid(row=9,column=0,columnspan=3,rowspan=2)
 
 
