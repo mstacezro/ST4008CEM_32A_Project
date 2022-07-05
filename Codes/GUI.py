@@ -38,44 +38,50 @@ label.pack(fill=BOTH, expand = YES)
 '''FRAMES for different sections'''
 '''frame for date/time'''
 
-'''Date Time'''
-date_frame = Frame(root,width=900,height=909)
-date_frame.place(x=990,y=10)
 
-date = dt.datetime.now()
-# Create Label to display the Date
-label = Label(date_frame, text=f"{date:%H:%M:%S %p \n %A \n %x}", font="Calibri, 10")
-label.grid(row=1,column=1)
+'''frame for date/time/info/logout'''
+top_frame = Frame(root,width=900,height=100)
+top_frame.place(x=990,y=10)
 
-# Create an instance of ttk style
-s = ttk.Style()
-s.theme_use('default')
-s.configure('TNotebook.Tab', background="green3",font=('Helvetica', 20,BOLD),foreground='maroon',   
-            height= 10,width=19,padx=10,pady=10)
+
+#info button
+manager_info=Image.open("information.png")
+resized_info_image=manager_info.resize((90,90))
+converted_info_image=ImageTk.PhotoImage(resized_info_image)
+
+information=Button(top_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
+information.grid(row=0,column=0)
+
+#edit button
+manager_edit=Image.open("edit.png")
+resized_edit_image=manager_edit.resize((90,90))
+converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
+
+edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
+edit.grid(row=0,column=1)
+
+#logout button
+manager_logout=Image.open("logout.png")
+resized_logout_image=manager_logout.resize((90,90))
+converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
+
+logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
+logout.grid(row=0,column=2)
+
 
 
 '''
-TAB frame'''
-tab_frame = Frame(root,width=880,height=600)
-tab_frame.place(x=10,y=160)
+Menu frame
+'''
+menu_frame = Frame(root,width=880,height=600)
+menu_frame.place(x=10,y=160)
 
-# # Create a tab control that manages multiple tabs
-tabsystem = ttk.Notebook(tab_frame)
 
-# Create new tabs using Frame widget
-menu_tab = Frame(tabsystem)
-order_tab = Frame(tabsystem)
-member_tab = Frame(tabsystem)
-
-tabsystem.add(menu_tab, text='MENU')
-tabsystem.add(order_tab, text='ORDER STATUS')
-tabsystem.add(member_tab, text='MEMBERS')
-tabsystem.pack(expand=1, fill="both")
 
 
 """ Frame for billing"""
 bill_frame = Frame(root,width=450,height=650)
-bill_frame.place(x=910,y=110)
+bill_frame.place(x=910,y=160)
 
 
 

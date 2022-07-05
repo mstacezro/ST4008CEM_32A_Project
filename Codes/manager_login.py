@@ -9,6 +9,7 @@ from PIL import Image, ImageTk
 # from click import style
 import sqlite3
 
+
 # create an application window
 root= Tk()
 #create the root title for the project
@@ -42,6 +43,39 @@ label = ttk.Label(root, image = photo)
 label.bind('<Configure>', resize_image)
 label.pack(fill=BOTH, expand = YES)
 
+'''frame for date/time/info/logout'''
+top_frame = Frame(root,width=900,height=100)
+top_frame.place(x=990,y=10)
+
+import datetime as dt
+# date = dt.datetime.now()
+# # Create Label to display the Date
+# label = Label(top_frame, text=f"{date:%H:%M:%S %p \n %A \n %x}", font="Calibri, 10")
+# label.grid(row=0,column=3)
+
+#info button
+manager_info=Image.open("information.png")
+resized_info_image=manager_info.resize((90,90))
+converted_info_image=ImageTk.PhotoImage(resized_info_image)
+
+information=Button(top_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
+information.grid(row=0,column=0)
+
+#edit button
+manager_edit=Image.open("edit.png")
+resized_edit_image=manager_edit.resize((90,90))
+converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
+
+edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
+edit.grid(row=0,column=1)
+
+#logout button
+manager_logout=Image.open("logout.png")
+resized_logout_image=manager_logout.resize((90,90))
+converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
+
+logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
+logout.grid(row=0,column=2)
 
 
 # Create Frame
@@ -158,12 +192,12 @@ def manager_query():
 
     
 
-manager_info=Image.open("information.png")
-resized_info_image=manager_info.resize((90,90))
-converted_info_image=ImageTk.PhotoImage(resized_info_image)
+# manager_info=Image.open("information.png")
+# resized_info_image=manager_info.resize((90,90))
+# converted_info_image=ImageTk.PhotoImage(resized_info_image)
 
-information=Button(login_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='black',fg='white',compound='top',pady=10, command=manager_query)
-information.grid(row=9,column=0,columnspan=3,rowspan=2)
+# information=Button(login_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='black',fg='white',compound='top',pady=10, command=manager_query)
+# information.grid(row=9,column=0,columnspan=3,rowspan=2)
 
 
 mainloop()
