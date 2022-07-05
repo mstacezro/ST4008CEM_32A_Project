@@ -13,7 +13,7 @@ from tkinter import messagebox
 # create an application window
 root= Tk()
 #create the root title for the project
-root.title("EDIT MANAGER DATA")
+root.title("EDIT STAFF DATA")
 
 
 '''FULLSCREEN'''
@@ -54,16 +54,16 @@ editor_frame.place(x=480,y=250)
 
 '''LABELS'''
 # Create textbox labels and image labels
-manager_profile=Image.open("manager.png")
-resized_image=manager_profile.resize((50,50))
+staff_profile=Image.open("user_photo.png")
+resized_image=staff_profile.resize((50,50))
 converted_image=ImageTk.PhotoImage(resized_image)
-myLabel=Label(editor_frame,image=converted_image, text="EDIT MANAGER DATA",font=('Arial','20','bold'),compound='left')
+myLabel=Label(editor_frame,image=converted_image, text="EDIT STAFF DATA",font=('Arial','20','bold'),compound='left')
 
 myLabel.grid(row=0,column=0,columnspan=2)
 
 # DATABASES
 #create a database or connect to one
-conn=sqlite3.connect('manager_details.db')
+conn=sqlite3.connect('staff_details.db')
 
 #create a cursor
 '''
@@ -79,15 +79,15 @@ def update():
     '''
     #connect to database
 
-    conn=sqlite3.connect('manager_details.db')
+    conn=sqlite3.connect('staff_details.db')
     #create cursor
     c=conn.cursor()
     
     #retrieve the row number of data to be updated by using .get() from entry box
     record_id=delete_box.get()
 
-#update the data from the update window into manager_details window
-    c.execute("""Update manager_details SET
+#update the data from the update window into staff_details window
+    c.execute("""Update staff_details SET
     first_name=:first,
     last_name=:last,
     age=:age,
@@ -130,15 +130,15 @@ def delete():
     otherwise all the records would be deleted.
     '''
     #connect to database
-    conn=sqlite3.connect('manager_details.db')
+    conn=sqlite3.connect('staff_details.db')
     
     #create cursor
     c=conn.cursor()
 
     #delete the unnecessary row which is obtained using .get()
-    c.execute("DELETE FROM manager_details WHERE oid="+delete_box.get())
+    c.execute("DELETE FROM staff_details WHERE oid="+delete_box.get())
 
-    #inform the manager_details that the data row is deleted
+    #inform the staff_details that the data row is deleted
     print("Deleted")
 
     #messagebox to show when datas are deleted
@@ -154,7 +154,7 @@ def delete():
 
 def edit():
     '''
-    This block of function is opened when update is clicked in manager_details window
+    This block of function is opened when update is clicked in staff_details window
     after required row is determined. 
     If row is not specified, it opens an empty window.
     '''
@@ -166,12 +166,12 @@ def edit():
    
 
     #connect to main database
-    conn=sqlite3.connect('manager_details.db')
+    conn=sqlite3.connect('staff_details.db')
     c=conn.cursor()
 
     #SELECT retrieves all data respective to the row in given box with .get()
     record_id=delete_box.get()
-    c.execute("SELECT * FROM manager_details WHERE oid="+record_id)
+    c.execute("SELECT * FROM staff_details WHERE oid="+record_id)
     records=c.fetchall()
 
 #global editors for modification

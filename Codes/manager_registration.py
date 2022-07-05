@@ -210,6 +210,9 @@ zipcode=Entry(register_frame,width=45)
 zipcode.grid(row=12,column=1,padx=5)
 
 
+#create back button
+back_btn=Button(register_frame,text="BACK",font=('Arial','10','bold'),bg='black',fg='white',width=5,command=NONE)
+back_btn.grid(row=0,column=0)
 
 
 
