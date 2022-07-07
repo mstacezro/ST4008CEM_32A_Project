@@ -6,7 +6,7 @@ SQLite3 statements, fetch data from the result sets of the queries
 '''
 
 '''
-Manager DB
+Manager Database
 '''
 conn=sqlite3.connect('RECORD.db')
 c=conn.cursor()
@@ -27,7 +27,7 @@ c.execute("""CREATE TABLE Manager(
 )""")
 
 '''
-Staff DB
+Staff Database
 '''
 c.execute("""CREATE TABLE Staff(
     f_name text,
@@ -48,7 +48,7 @@ print("Table Created")
 
 
 '''
-Product DB
+Product Database
 '''
 c.execute("""CREATE TABLE Product(
     product_name text,
