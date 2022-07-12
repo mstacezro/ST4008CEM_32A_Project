@@ -24,6 +24,7 @@ c.execute("""CREATE TABLE Manager(
     city text,
     zipcode integer,
     Manager_id integer,
+    Status text
 )""")
 
 '''
@@ -41,7 +42,8 @@ c.execute("""CREATE TABLE Staff(
     address text,
     city text,
     zipcode integer,
-    Staff_id integer
+    Staff_id integer,
+    Status text
 )""")
 
 print("Table Created")
