@@ -6,9 +6,9 @@ from tkinter import ttk
 from tkinter import font
 from tkinter.font import BOLD
 from PIL import Image, ImageTk
-from click import style
 import sqlite3
 from tkinter import messagebox
+import os
 
 # create an application window
 root= Tk()
@@ -56,7 +56,7 @@ SQLite3 statements, fetch data from the result sets of the queries
 '''
 c=conn.cursor()
 
-def register():
+def manager_register():
     '''
     This function adds user details as data to the database table
     '''
@@ -210,14 +210,23 @@ zipcode=Entry(register_frame,width=45)
 zipcode.grid(row=12,column=1,padx=5)
 
 
+
+'''
+BACK FUNCTION
+'''
+
+def backspace():
+    root.destroy()
+    os.system('python manager_login.py')
+
 #create back button
-back_btn=Button(register_frame,text="BACK",font=('Arial','10','bold'),bg='black',fg='white',width=5,command=NONE)
+back_btn=Button(register_frame,text="BACK",font=('Arial','10','bold'),bg='black',fg='white',width=5,command=backspace)
 back_btn.grid(row=0,column=0)
 
 
 
 # Create register button    
-register_btn=Button(register_frame,text="REGISTER",font=('Arial','20','bold'),bg='#046307',fg='white',command=register)
+register_btn=Button(register_frame,text="REGISTER",font=('Arial','20','bold'),bg='#046307',fg='white',command=manager_register)
 register_btn.grid(row=13,column=0,padx=10,pady=10,columnspan=2,ipadx=120)
 
 
