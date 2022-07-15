@@ -19,12 +19,6 @@ root.title("MANAGER REGISTRATION")
 '''FULLSCREEN'''
 #default fullscreen
 root.attributes('-fullscreen',True)
-#icon 
-# root.iconbitmap("logo.ico") 
-# from PIL import Image, ImageTk
-# logo = ImageTk.PhotoImage(file='/home/mstacezro/Documents/ST4008CEM_32A_LED_Project/Code/logo_cristy.png')
-# root.tk.call('wm', 'iconphoto', root._w, logo)
-
 
 '''WALLPAPER'''
 #setting photo as background
@@ -36,7 +30,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('registration_bg.jpg')
+image = Image.open('img/registration_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -47,7 +41,7 @@ label.pack(fill=BOTH, expand = YES)
 
 # DATABASES
 #create a database or connect to one
-conn=sqlite3.connect('manager_details.db')
+conn=sqlite3.connect('CRISTY_RECORD.db')
 
 #create a cursor
 '''
@@ -61,18 +55,18 @@ def manager_register():
     This function adds user details as data to the database table
     '''
     #connect to the database 
-    conn=sqlite3.connect('managers.db')
+    conn=sqlite3.connect('CRISTY_RECORD.db')
 
     #create cursor
     c=conn.cursor()
 
     '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
     #the values of attributes is obtained by .get() from respective entry box
-    c.execute("INSERT INTO user VALUES(:f_name,:l_name,:age,:gender,:pin,:re_pin,:father_name, :phone, :address,:city,:zipcode)",{
+    c.execute("INSERT INTO Manager VALUES(:f_name,:l_name,:age,:gender,:pin,:re_pin,:father_name, :phone, :address,:city,:zipcode)",{
         'f_name':f_name.get(),
         'l_name':l_name.get(),
         'age':age.get(),
-        'gender':gender.get(),
+        'gender':gender,
         'pin':pin.get(),
         're_pin':re_pin.get(),
         'father_name':father_name.get(),
@@ -81,8 +75,12 @@ def manager_register():
         'city':city.get(),
         'zipcode':zipcode.get()
     })
-
-    #messagebox to show when datas are added 
+    # if pin.get()==re_pin.get():
+    #     #messagebox to show when datas are added 
+    #     messagebox.showinfo("Success","New manager is registered.")
+    # else:
+    #     messagebox.showinfo("ERROR"," PIN doesn't match.")
+    
     messagebox.showinfo("Success","New manager is registered.")
 
 
@@ -119,7 +117,7 @@ register_frame.place(x=10,y=172)
 
 '''LABELS'''
 # Create textbox labels and image labels
-manager_profile=Image.open("manager.png")
+manager_profile=Image.open("img/manager.png")
 resized_image=manager_profile.resize((150,150))
 converted_image=ImageTk.PhotoImage(resized_image)
 myLabel=Label(register_frame,image=converted_image, text="MANAGER REGISTRATION",font=('Arial','20','bold'),compound='top')
@@ -223,6 +221,7 @@ def backspace():
 back_btn=Button(register_frame,text="BACK",font=('Arial','10','bold'),bg='black',fg='white',width=5,command=backspace)
 back_btn.grid(row=0,column=0)
 
+'''REGISTER VALID FUNCTION'''
 
 
 # Create register button    

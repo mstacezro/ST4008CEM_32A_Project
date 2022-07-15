@@ -7,6 +7,8 @@ from tkinter.font import BOLD
 from turtle import width
 from PIL import Image, ImageTk
 import sqlite3
+import os
+
 
 # create an application window
 root= Tk()
@@ -18,6 +20,11 @@ root.title("POS")
 #default fullscreen
 root.attributes('-fullscreen',True)
 
+def backspace():
+    root.destroy()
+    os.system('python staff_login.py')
+
+
 #setting photo as background
 def resize_image(event):
     new_width = event.width
@@ -27,7 +34,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('menu_bg.jpg')
+image = Image.open('img/menu_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -85,11 +92,11 @@ def order_add():
 
 '''frame for date/time/info/logout'''
 top_frame = Frame(root,width=900,height=100)
-top_frame.place(x=990,y=10)
+top_frame.place(x=1060,y=10)
 
 
 #info button
-manager_info=Image.open("information.png")
+manager_info=Image.open("img/information.png")
 resized_info_image=manager_info.resize((90,90))
 converted_info_image=ImageTk.PhotoImage(resized_info_image)
 
@@ -97,7 +104,7 @@ information=Button(top_frame,image=converted_info_image, text="INFO",font=('Aria
 information.grid(row=0,column=0)
 
 #edit button
-manager_edit=Image.open("edit.png")
+manager_edit=Image.open("img/edit.png")
 resized_edit_image=manager_edit.resize((90,90))
 converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
 
@@ -105,11 +112,11 @@ edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11'
 edit.grid(row=0,column=1)
 
 #logout button
-manager_logout=Image.open("logout.png")
+manager_logout=Image.open("img/logout.png")
 resized_logout_image=manager_logout.resize((90,90))
 converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
 
-logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=NONE)
+logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=backspace)
 logout.grid(row=0,column=2)
 
 
@@ -122,7 +129,7 @@ Menu frame
 
 """ Frame for order"""
 order_frame = Frame(root,width=245,height=600)
-order_frame.place(x=711,y=160)
+order_frame.place(x=655,y=160)
 
 order_label=Label(order_frame, text="ORDERS",font=('Arial','20','bold'),width=16,bg='green')
 order_label.grid(row=0,column=0)
@@ -203,18 +210,18 @@ tabsystem.pack(expand=1, fill="both")
 
 '''BURGER MENU buttons'''
 
-burger1=Image.open("BuffBurger.PNG")
+burger1=Image.open("img/BuffBurger.PNG")
 resized_burger1=burger1.resize((200,150))
 converted_burger1=ImageTk.PhotoImage(resized_burger1)
 
 burger1=Button(burger_tab,image=converted_burger1, text="Buff Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Buff Burger"))
 burger1.grid(row=0,column=0,padx=2,pady=2)
 
-burger1_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+burger1_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger1_label.grid(row=1,column=0)
 
 
-burger2=Image.open("ChickenBurger.PNG")
+burger2=Image.open("img/ChickenBurger.PNG")
 resized_burger2=burger2.resize((200,150))
 converted_burger2=ImageTk.PhotoImage(resized_burger2)
 
@@ -222,10 +229,10 @@ burger2=Button(burger_tab,image=converted_burger2, text="Chicken Burger",font=('
 burger2.grid(row=0,column=1,padx=2,pady=2)
 
 
-burger2_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+burger2_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger2_label.grid(row=1,column=1)
 
-burger3=Image.open("EggBurger.PNG")
+burger3=Image.open("img/EggBurger.PNG")
 resized_burger3=burger3.resize((200,150))
 converted_burger3=ImageTk.PhotoImage(resized_burger3)
 
@@ -233,167 +240,167 @@ burger3=Button(burger_tab,image=converted_burger3, text="Egg Burger",font=('Aria
 burger3.grid(row=2,column=0,padx=2,pady=2)
 
 
-burger3_label=Label(burger_tab, text="Rs 150",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+burger3_label=Label(burger_tab, text="Rs 150",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger3_label.grid(row=3,column=0)
 
-burger4=Image.open("VeggieBurger.PNG")
+burger4=Image.open("img/VeggieBurger.PNG")
 resized_burger4=burger4.resize((200,150))
 converted_burger4=ImageTk.PhotoImage(resized_burger4)
 
 burger4=Button(burger_tab,image=converted_burger4, text="Fish Burger ",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fish Burger"))
 burger4.grid(row=0,column=2,padx=2,pady=2)
 
-burger4_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+burger4_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger4_label.grid(row=1,column=2)
 
-burger5=Image.open("VeggieBurger.PNG")
+burger5=Image.open("img/VeggieBurger.PNG")
 resized_burger5=burger5.resize((200,150))
 converted_burger5=ImageTk.PhotoImage(resized_burger5)
 
 burger5=Button(burger_tab,image=converted_burger5, text="Veg Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Veg Burger"))
 burger5.grid(row=2,column=1,padx=2,pady=2)
 
-burger5_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+burger5_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger5_label.grid(row=3,column=1)
 
-burger6=Image.open("PorkBurger.png")
+burger6=Image.open("img/PorkBurger.png")
 resized_burger6=burger6.resize((200,150))
 converted_burger6=ImageTk.PhotoImage(resized_burger6)
 
 burger6=Button(burger_tab,image=converted_burger6, text="Pork Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Pork Burger"))
 burger6.grid(row=2,column=2,padx=2,pady=2)
 
-burger6_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+burger6_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger6_label.grid(row=3,column=2)
 
 '''SIDE DISHbuttons'''
 
-sideDish1=Image.open("Fries.PNG")
+sideDish1=Image.open("img/Fries.PNG")
 resized_sideDish1=sideDish1.resize((200,150))
 converted_sideDish1=ImageTk.PhotoImage(resized_sideDish1)
 
 sideDish1=Button(sideDish_tab,image=converted_sideDish1, text="Fries",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fries"))
 sideDish1.grid(row=0,column=0,padx=2,pady=2)
 
-sideDish1_label=Label(sideDish_tab, text="Rs 100",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+sideDish1_label=Label(sideDish_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish1_label.grid(row=1,column=0)
 
-sideDish2=Image.open("ChickenWings.png")
+sideDish2=Image.open("img/ChickenWings.png")
 resized_sideDish2=sideDish2.resize((200,150))
 converted_sideDish2=ImageTk.PhotoImage(resized_sideDish2)
 
 sideDish2=Button(sideDish_tab,image=converted_sideDish2, text="Chicken Wings",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Wings"))
 sideDish2.grid(row=0,column=1,padx=2,pady=2)
 
-sideDish2_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+sideDish2_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish2_label.grid(row=1,column=1)
 
 
-sideDish3=Image.open("Nuggets.png")
+sideDish3=Image.open("img/Nuggets.png")
 resized_sideDish3=sideDish3.resize((200,150))
 converted_sideDish3=ImageTk.PhotoImage(resized_sideDish3)
 
 sideDish3=Button(sideDish_tab,image=converted_sideDish3, text="Nuggets",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Nuggets"))
 sideDish3.grid(row=0,column=2,padx=2,pady=2)
 
-sideDish3_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+sideDish3_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish3_label.grid(row=1,column=2)
 
 
-sideDish4=Image.open("ApplePie.png")
+sideDish4=Image.open("img/ApplePie.png")
 resized_sideDish4=sideDish4.resize((200,150))
 converted_sideDish4=ImageTk.PhotoImage(resized_sideDish4)
 
 sideDish4=Button(sideDish_tab,image=converted_sideDish4, text="Apple Pie",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Apple Pie"))
 sideDish4.grid(row=2,column=0,padx=2,pady=2)
 
-sideDish4_label=Label(sideDish_tab, text="Rs 100",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+sideDish4_label=Label(sideDish_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish4_label.grid(row=3,column=0)
 
 
-sideDish5=Image.open("BBQ-Wrap.png")
+sideDish5=Image.open("img/BBQ-Wrap.png")
 resized_sideDish5=sideDish5.resize((200,150))
 converted_sideDish5=ImageTk.PhotoImage(resized_sideDish5)
 
 sideDish5=Button(sideDish_tab,image=converted_sideDish5, text="BBQ Wrap",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("BBQ Wrap"))
 sideDish5.grid(row=2,column=1,padx=2,pady=2)
 
-sideDish5_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+sideDish5_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish5_label.grid(row=3,column=1)
 
 
-sideDish6=Image.open("chickenSalad.png")
+sideDish6=Image.open("img/chickenSalad.png")
 resized_sideDish6=sideDish6.resize((200,150))
 converted_sideDish6=ImageTk.PhotoImage(resized_sideDish6)
 
 sideDish6=Button(sideDish_tab,image=converted_sideDish6, text="Chicken Salad",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Salad"))
 sideDish6.grid(row=2,column=2,padx=2,pady=2)
 
-sideDish1_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+sideDish1_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish1_label.grid(row=3,column=2)
 
 
 '''DRINKS DISHbuttons'''
 
-drinks1=Image.open("Coke.png")
+drinks1=Image.open("img/Coke.png")
 resized_drinks1=drinks1.resize((200,150))
 converted_drinks1=ImageTk.PhotoImage(resized_drinks1)
 
 drinks1=Button(drinks_tab,image=converted_drinks1, text="Coke",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Coke"))
 drinks1.grid(row=0,column=0,padx=2,pady=2)
 
-drinks1_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+drinks1_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks1_label.grid(row=1,column=0)
 
 
-drinks2=Image.open("Fanta.png")
+drinks2=Image.open("img/Fanta.png")
 resized_drinks2=drinks2.resize((200,150))
 converted_drinks2=ImageTk.PhotoImage(resized_drinks2)
 
 drinks2=Button(drinks_tab,image=converted_drinks2, text="Fanta",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fanta"))
 drinks2.grid(row=0,column=1,padx=2,pady=2)
 
-drinks2_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+drinks2_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks2_label.grid(row=1,column=1)
 
-drinks3=Image.open("Sprite.png")
+drinks3=Image.open("img/Sprite.png")
 resized_drinks3=drinks3.resize((200,150))
 converted_drinks3=ImageTk.PhotoImage(resized_drinks3)
 
 drinks3=Button(drinks_tab,image=converted_drinks3, text="Sprite",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Sprite"))
 drinks3.grid(row=0,column=2,padx=2,pady=2)
 
-drinks3_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+drinks3_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks3_label.grid(row=1,column=2)
 
-drinks4=Image.open("Chocolate-Frappe.png")
+drinks4=Image.open("img/Chocolate-Frappe.png")
 resized_drinks4=drinks4.resize((200,150))
 converted_drinks4=ImageTk.PhotoImage(resized_drinks4)
 
 drinks4=Button(drinks_tab,image=converted_drinks4, text="Chocolate Frappe",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chocolate Frappe"))
 drinks4.grid(row=2,column=0,padx=2,pady=2)
 
-drinks4_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+drinks4_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks4_label.grid(row=3,column=0)
 
-drinks5=Image.open("Chocolate-Oreo-Frappé.png")
+drinks5=Image.open("img/Chocolate-Oreo-Frappé.png")
 resized_drinks5=drinks5.resize((200,150))
 converted_drinks5=ImageTk.PhotoImage(resized_drinks5)
 
 drinks5=Button(drinks_tab,image=converted_drinks5, text="Chocolate Oreo Frappe",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chocolate Oreo Frappe"))
 drinks5.grid(row=2,column=1,padx=2,pady=2)
 
-drinks5_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+drinks5_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks5_label.grid(row=3,column=1)
 
-drinks6=Image.open("Vanilla-Frappe.png")
+drinks6=Image.open("img/Vanilla-Frappe.png")
 resized_drinks6=drinks6.resize((200,150))
 converted_drinks6=ImageTk.PhotoImage(resized_drinks6)
 
 drinks6=Button(drinks_tab,image=converted_drinks6, text="Vanilla Frappe",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Vanilla Frappe"))
 drinks6.grid(row=2,column=2,padx=2,pady=2)
 
-drinks6_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=28,bg='white',pady=20)
+drinks6_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks6_label.grid(row=3,column=2)
 
 

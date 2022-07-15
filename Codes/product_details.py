@@ -31,7 +31,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('registration_bg.jpg')
+image = Image.open('img/registration_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -266,7 +266,7 @@ product_frame.place(x=10,y=165)
 
 '''LABELS'''
 # Create textbox labels and image labels
-product_profile=Image.open("burger.png")
+product_profile=Image.open("img/burger.png")
 resized_image=product_profile.resize((150,150))
 converted_image=ImageTk.PhotoImage(resized_image)
 myLabel=Label(product_frame,image=converted_image, text="PRODUCT DATABASE",font=('Arial','20','bold'),compound='top')
@@ -333,7 +333,7 @@ edit_box_btn.grid(row=6,column=0,columnspan=2,pady=1,padx=10,ipadx=120)
 
 
 #info button
-product_info=Image.open("information.png")
+product_info=Image.open("img/information.png")
 resized_info_image=product_info.resize((90,90))
 converted_info_image=ImageTk.PhotoImage(resized_info_image)
 

@@ -20,11 +20,7 @@ root.title("STAFF REGISTRATION")
 '''FULLSCREEN'''
 #default fullscreen
 root.attributes('-fullscreen',True)
-#icon 
-# root.iconbitmap("logo.ico") 
-# from PIL import Image, ImageTk
-# logo = ImageTk.PhotoImage(file='/home/mstacezro/Documents/ST4008CEM_32A_LED_Project/Code/logo_cristy.png')
-# root.tk.call('wm', 'iconphoto', root._w, logo)
+
 
 
 '''WALLPAPER'''
@@ -37,7 +33,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('registration_bg.jpg')
+image = Image.open('img/registration_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -120,7 +116,7 @@ register_frame.place(x=10,y=172)
 
 '''LABELS'''
 # Create textbox labels and image labels
-manager_profile=Image.open("user_photo.png")
+manager_profile=Image.open("img/user_photo.png")
 resized_image=manager_profile.resize((150,150))
 converted_image=ImageTk.PhotoImage(resized_image)
 myLabel=Label(register_frame,image=converted_image, text="STAFF REGISTRATION",font=('Arial','20','bold'),compound='top')

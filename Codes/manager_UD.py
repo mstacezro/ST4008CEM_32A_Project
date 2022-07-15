@@ -6,7 +6,6 @@ from tkinter import ttk
 from tkinter import font
 from tkinter.font import BOLD
 from PIL import Image, ImageTk
-from click import style
 import sqlite3
 from tkinter import messagebox
 
@@ -19,12 +18,6 @@ root.title("EDIT MANAGER DATA")
 '''FULLSCREEN'''
 #default fullscreen
 root.attributes('-fullscreen',True)
-#icon 
-# root.iconbitmap("logo.ico") 
-# from PIL import Image, ImageTk
-# logo = ImageTk.PhotoImage(file='/home/mstacezro/Documents/ST4008CEM_32A_LED_Project/Code/logo_cristy.png')
-# root.tk.call('wm', 'iconphoto', root._w, logo)
-
 
 '''WALLPAPER'''
 #setting photo as background
@@ -36,7 +29,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('edit_bg.jpg')
+image = Image.open('img/edit_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -54,7 +47,7 @@ editor_frame.place(x=480,y=250)
 
 '''LABELS'''
 # Create textbox labels and image labels
-manager_profile=Image.open("manager.png")
+manager_profile=Image.open("img/manager.png")
 resized_image=manager_profile.resize((50,50))
 converted_image=ImageTk.PhotoImage(resized_image)
 myLabel=Label(editor_frame,image=converted_image, text="EDIT MANAGER DATA",font=('Arial','20','bold'),compound='left')
@@ -321,7 +314,7 @@ back_frame = Frame(root,width=50,height=50)
 back_frame.place(x=1250,y=640)
 
 #back button
-back=Image.open("Back.png")
+back=Image.open("img/Back.png")
 resized_back_image=back.resize((90,90))
 converted_back_image=ImageTk.PhotoImage(resized_back_image)
 

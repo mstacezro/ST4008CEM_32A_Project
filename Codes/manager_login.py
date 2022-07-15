@@ -17,6 +17,9 @@ root.title("MANAGER LOGIN")
 #default fullscreen
 root.attributes('-fullscreen',True)
 
+supervisor_ID= 101
+supervisor_pin=0000
+
 #setting photo as background
 def resize_image(event):
     new_width = event.width
@@ -26,7 +29,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('login_bg.jpg')
+image = Image.open('img/login_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -34,6 +37,8 @@ label.bind('<Configure>', resize_image)
 label.pack(fill=BOTH, expand = YES)
 
 
+def login():
+    
 '''
 READ CRUD
 '''
@@ -105,11 +110,11 @@ def manager_query():
 
 '''frame for info/edit'''
 top_frame = Frame(root,width=900,height=100)
-top_frame.place(x=1160,y=10)
+top_frame.place(x=1060,y=10)
 
 
 #info button
-manager_info=Image.open("information.png")
+manager_info=Image.open("img/information.png")
 resized_info_image=manager_info.resize((90,90))
 converted_info_image=ImageTk.PhotoImage(resized_info_image)
 
@@ -167,14 +172,20 @@ def edit():
     
 
 #edit button
-manager_edit=Image.open("edit.png")
+manager_edit=Image.open("img/edit.png")
 resized_edit_image=manager_edit.resize((90,90))
 converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
 
 edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=edit)
 edit.grid(row=0,column=1)
 
+#product_edit button
+product_edit=Image.open("img/burger.png")
+resized_product_edit_image=product_edit.resize((90,90))
+converted_product_edit_image=ImageTk.PhotoImage(resized_product_edit_image)
 
+product_edit=Button(top_frame,image=converted_product_edit_image, text="PRODUCT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=edit)
+product_edit.grid(row=0,column=2)
 '''
 REGISTER VALIDATION FUNCTION
 '''
@@ -205,6 +216,7 @@ def register_validate():
     
 
 
+
 # Create Frame
 login_frame = Frame(root,width=230,height=590)
 login_frame.place(x=910,y=172)
@@ -212,7 +224,7 @@ login_frame.place(x=910,y=172)
 
 # Create textbox labels
 
-manager_profile=Image.open("manager.png")
+manager_profile=Image.open("img/manager.png")
 resized_image=manager_profile.resize((200,200))
 converted_image=ImageTk.PhotoImage(resized_image)
 manager_profile_pic=Label(login_frame,image=converted_image, text="MANAGER LOGIN",font=('Arial','30','bold'),compound='top')
@@ -230,6 +242,8 @@ username_entry.grid(row=3,column=2,padx=10,pady=10)
 
 pin_entry=ttk.Entry(login_frame,font="arial 15 bold",width=27,show="*")
 pin_entry.grid(row=4,column=2,padx=10,pady=10)
+
+    
 
 # Create sign in button    
 sign_in_btn=Button(login_frame,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)

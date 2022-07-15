@@ -27,7 +27,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('login_bg.jpg')
+image = Image.open('img/login_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -113,10 +113,10 @@ def staff_query():
 
 '''frame for info/edit/logout'''
 top_frame = Frame(root,width=900,height=100)
-top_frame.place(x=990,y=10)
+top_frame.place(x=1060,y=10)
 
 #info button
-manager_info=Image.open("information.png")
+manager_info=Image.open("img/information.png")
 resized_info_image=manager_info.resize((90,90))
 converted_info_image=ImageTk.PhotoImage(resized_info_image)
 
@@ -175,7 +175,7 @@ def edit():
 
 
 #edit button
-manager_edit=Image.open("edit.png")
+manager_edit=Image.open("img/edit.png")
 resized_edit_image=manager_edit.resize((90,90))
 converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
 
@@ -185,14 +185,16 @@ edit.grid(row=0,column=1)
 '''
 LOGOUT FUNCTION
 '''
-#?????????????????????????????????????????????????
+def backspace():
+    root.destroy()
+    os.system('python manager_login.py')
 
 #logout button
-manager_logout=Image.open("logout.png")
+manager_logout=Image.open("img/logout.png")
 resized_logout_image=manager_logout.resize((90,90))
 converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
 
-logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
+logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=backspace)
 logout.grid(row=0,column=2)
 
 
@@ -233,7 +235,7 @@ login_frame.place(x=910,y=172)
 
 # Create textbox labels
 
-staff_profile=Image.open("user_photo.png")
+staff_profile=Image.open("img/user_photo.png")
 resized_image=staff_profile.resize((200,200))
 converted_image=ImageTk.PhotoImage(resized_image)
 staff_profile_pic=Label(login_frame,image=converted_image, text="STAFF LOGIN",font=('Arial','30','bold'),compound='top')

@@ -6,7 +6,6 @@ from tkinter import ttk
 from tkinter import font
 from tkinter.font import BOLD
 from PIL import Image, ImageTk
-from click import style
 import sqlite3
 from tkinter import messagebox
 
@@ -19,12 +18,6 @@ root.title("EDIT STAFF DATA")
 '''FULLSCREEN'''
 #default fullscreen
 root.attributes('-fullscreen',True)
-#icon 
-# root.iconbitmap("logo.ico") 
-# from PIL import Image, ImageTk
-# logo = ImageTk.PhotoImage(file='/home/mstacezro/Documents/ST4008CEM_32A_LED_Project/Code/logo_cristy.png')
-# root.tk.call('wm', 'iconphoto', root._w, logo)
-
 
 '''WALLPAPER'''
 #setting photo as background
@@ -36,7 +29,7 @@ def resize_image(event):
     label.config(image = photo)
     label.image = photo #avoid garbage collection
 
-image = Image.open('edit_bg.jpg')
+image = Image.open('img/edit_bg.jpg')
 copy_of_image = image.copy()
 photo = ImageTk.PhotoImage(image)
 label = ttk.Label(root, image = photo)
@@ -54,7 +47,7 @@ editor_frame.place(x=480,y=250)
 
 '''LABELS'''
 # Create textbox labels and image labels
-staff_profile=Image.open("user_photo.png")
+staff_profile=Image.open("img/user_photo.png")
 resized_image=staff_profile.resize((50,50))
 converted_image=ImageTk.PhotoImage(resized_image)
 myLabel=Label(editor_frame,image=converted_image, text="EDIT STAFF DATA",font=('Arial','20','bold'),compound='left')
@@ -103,11 +96,11 @@ def update():
         'first':f_name_editor.get(),
         'last':l_name_editor.get(),
         'age':age_editor.get(),
-        'gender':gender_editer.get(),
+        'gender':gender_editor.get(),
         'pin':pin_editor.get(),
         're_pin':re_pin_editor.get(),
         'father_name':father_name_editor.get(),
-        'phone':phone.get(),
+        'phone':phone_editor.get(),
         'address':address_editor.get(),
         'city':city_editor.get(),
         'zipcode':zipcode_editor.get(),
@@ -285,8 +278,8 @@ pin_editor.grid(row=6,column=1,padx=5)
 re_pin_editor=Entry(editor_frame,width=32,show="*")
 re_pin_editor.grid(row=7,column=1,padx=5)
 
-father_editor_name=Entry(editor_frame,width=32)
-father_editor_name.grid(row=8,column=1,padx=5)
+father_name_editor=Entry(editor_frame,width=32)
+father_name_editor.grid(row=8,column=1,padx=5)
 
 phone_editor=Entry(editor_frame,width=32)
 phone_editor.grid(row=9,column=1,padx=5)
@@ -321,7 +314,7 @@ back_frame = Frame(root,width=50,height=50)
 back_frame.place(x=1250,y=640)
 
 #back button
-back=Image.open("Back.png")
+back=Image.open("img/Back.png")
 resized_back_image=back.resize((90,90))
 converted_back_image=ImageTk.PhotoImage(resized_back_image)
 
