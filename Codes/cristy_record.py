@@ -25,7 +25,7 @@ try:
         address text,
         city text,
         zipcode integer,
-        Manager_id integer PRIMARY KEY,
+        Manager_id integer PRIMARY KEY AUTOINCREMENT,
         Status text
     )""")
 except:
@@ -61,7 +61,7 @@ try:
     c.execute("""CREATE TABLE Product(
         product_name text,
         product_price integer,
-        product_id integer PRIMARY KEY
+        product_id integer PRIMARY KEY AUTOINCREMENT
     )""")
 
     print("Table Created")
@@ -81,6 +81,7 @@ try:
 except:
     pass
 
+# c.execute("DROP TABLE Product")
 conn.commit()
 conn.close()
 # mainloop()

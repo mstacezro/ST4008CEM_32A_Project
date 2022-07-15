@@ -20,7 +20,8 @@ root.title("PRODUCT DATABASE")
 #default fullscreen
 root.attributes('-fullscreen',True)
 
-
+# def add():
+    
 '''WALLPAPER'''
 #setting photo as background
 def resize_image(event):
@@ -56,17 +57,14 @@ def product_add():
     This function adds user details as data to the database table
     '''
     #connect to the database 
-    conn=sqlite3.connect('Products.db')
+    conn=sqlite3.connect('CRISTY_RECORD.db')
 
     #create cursor
     c=conn.cursor()
 
     '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
     #the values of attributes is obtained by .get() from respective entry box
-    c.execute("INSERT INTO user VALUES(:p_name,:p_price)",{
-        'p_name':p_name.get(),
-        'p_price':p_price.get()
-    })
+    c.execute("INSERT INTO Product(product_name,product_price) VALUES(?,?)",(p_name.get(),p_price.get()))
 
     #messagebox to show when datas are added 
     messagebox.showinfo("Success","New product is added.")
@@ -199,7 +197,7 @@ def product_query():
     info_query.configure(bg='#B1FB17')
 
     #connect to main database
-    conn=sqlite3.connect('Products.db')
+    conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
     
     #create cursor
@@ -211,7 +209,7 @@ def product_query():
     that can be automatically assigned to each row of a table created WITH OIDS option.
     ID can be used as an identity (auto-increment) primary key column
     '''
-    c.execute("SELECT *,oid FROM products")   #table name ????
+    c.execute("SELECT *,oid FROM product")   #table name ????
 
     #Fetches the existing rows from a result set
     records=c.fetchall()

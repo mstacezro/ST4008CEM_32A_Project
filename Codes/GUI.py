@@ -1,5 +1,6 @@
 # import tkinter module to the program
 from itertools import product
+import profile
 from tkinter import*
 from tkinter import ttk
 from tkinter import font
@@ -49,6 +50,21 @@ def setTextInput(text):
     product_entry.delete(0,"end")
     product_entry.insert(0, text)
 
+def Burger():
+    text=burger1.cget('text')
+    setTextInput(text)
+    conn=sqlite3.connect("CRISTY_RECORD.db")
+    c=conn.cursor()
+    
+    c.execute('SELECT * FROM Product WHERE product_name=?',(text))
+    data=c.fetchall()
+    
+    for i in data:
+        price=i[1]
+    print(price)
+    rate_entry.insert(0,price)
+    conn.commit()
+    conn.close()
 def order_add():
     '''
     This function adds order details as data to the bill table
@@ -64,7 +80,7 @@ def order_add():
     c.execute("INSERT INTO order VALUES(:product,:rate,:quantity,:total_cost)",{
         'product':product_entry.get(),
         'rate':rate_entry.get(),
-        'quantity':quantity_entry.get(),
+        'quantity':quantity_dropdown.get(),
         'total_cost':total_entry.get()
     })
 
@@ -81,7 +97,7 @@ def order_add():
     #clear the text boxes
     product_entry.delete(0,END)
     rate_entry.delete(0,END)
-    quantity_entry.delete(0,END)
+    quantity_dropdown.delete(0,END)
     total_entry.delete(0,END)
     
 
@@ -149,8 +165,10 @@ rate_entry.grid(row=4,column=0,pady=10)
 quantity_label=Label(order_frame, text="Quantity",font=('Arial','11','bold'),width=30,bg='grey')
 quantity_label.grid(row=5,column=0,pady=10)
 
-quantity_entry=Entry(order_frame,width=30)
-quantity_entry.grid(row=6,column=0,pady=10)
+quantity_list=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+quantity_dropdown=ttk.Combobox(order_frame,values=quantity_list,state='readonly')
+quantity_dropdown.current(0)
+quantity_dropdown.grid(row=6,column=0,pady=10)
 
 total_label=Label(order_frame, text="Total cost",font=('Arial','11','bold'),width=30,bg='grey')
 total_label.grid(row=7,column=0,pady=10)
@@ -210,11 +228,12 @@ tabsystem.pack(expand=1, fill="both")
 
 '''BURGER MENU buttons'''
 
+
 burger1=Image.open("img/BuffBurger.PNG")
 resized_burger1=burger1.resize((200,150))
 converted_burger1=ImageTk.PhotoImage(resized_burger1)
 
-burger1=Button(burger_tab,image=converted_burger1, text="Buff Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Buff Burger"))
+burger1=Button(burger_tab,image=converted_burger1, text="Buff Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=Burger)
 burger1.grid(row=0,column=0,padx=2,pady=2)
 
 burger1_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -225,8 +244,8 @@ burger2=Image.open("img/ChickenBurger.PNG")
 resized_burger2=burger2.resize((200,150))
 converted_burger2=ImageTk.PhotoImage(resized_burger2)
 
-burger2=Button(burger_tab,image=converted_burger2, text="Chicken Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Burger"))
-burger2.grid(row=0,column=1,padx=2,pady=2)
+burger1=Button(burger_tab,image=converted_burger2, text="Chicken Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Burger"))
+burger1.grid(row=0,column=1,padx=2,pady=2)
 
 
 burger2_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -236,8 +255,8 @@ burger3=Image.open("img/EggBurger.PNG")
 resized_burger3=burger3.resize((200,150))
 converted_burger3=ImageTk.PhotoImage(resized_burger3)
 
-burger3=Button(burger_tab,image=converted_burger3, text="Egg Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Egg Burger"))
-burger3.grid(row=2,column=0,padx=2,pady=2)
+burger1=Button(burger_tab,image=converted_burger3, text="Egg Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Egg Burger"))
+burger1.grid(row=2,column=0,padx=2,pady=2)
 
 
 burger3_label=Label(burger_tab, text="Rs 150",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -247,8 +266,8 @@ burger4=Image.open("img/VeggieBurger.PNG")
 resized_burger4=burger4.resize((200,150))
 converted_burger4=ImageTk.PhotoImage(resized_burger4)
 
-burger4=Button(burger_tab,image=converted_burger4, text="Fish Burger ",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fish Burger"))
-burger4.grid(row=0,column=2,padx=2,pady=2)
+burger1=Button(burger_tab,image=converted_burger4, text="Fish Burger ",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fish Burger"))
+burger1.grid(row=0,column=2,padx=2,pady=2)
 
 burger4_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger4_label.grid(row=1,column=2)
@@ -257,8 +276,8 @@ burger5=Image.open("img/VeggieBurger.PNG")
 resized_burger5=burger5.resize((200,150))
 converted_burger5=ImageTk.PhotoImage(resized_burger5)
 
-burger5=Button(burger_tab,image=converted_burger5, text="Veg Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Veg Burger"))
-burger5.grid(row=2,column=1,padx=2,pady=2)
+burger1=Button(burger_tab,image=converted_burger5, text="Veg Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Veg Burger"))
+burger1.grid(row=2,column=1,padx=2,pady=2)
 
 burger5_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger5_label.grid(row=3,column=1)
@@ -267,8 +286,8 @@ burger6=Image.open("img/PorkBurger.png")
 resized_burger6=burger6.resize((200,150))
 converted_burger6=ImageTk.PhotoImage(resized_burger6)
 
-burger6=Button(burger_tab,image=converted_burger6, text="Pork Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Pork Burger"))
-burger6.grid(row=2,column=2,padx=2,pady=2)
+burger1=Button(burger_tab,image=converted_burger6, text="Pork Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=Burger)
+burger1.grid(row=2,column=2,padx=2,pady=2)
 
 burger6_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger6_label.grid(row=3,column=2)
@@ -289,7 +308,7 @@ sideDish2=Image.open("img/ChickenWings.png")
 resized_sideDish2=sideDish2.resize((200,150))
 converted_sideDish2=ImageTk.PhotoImage(resized_sideDish2)
 
-sideDish2=Button(sideDish_tab,image=converted_sideDish2, text="Chicken Wings",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Wings"))
+sideDish2=Button(sideDish_tab,image=converted_sideDish2, text="Chicken Wings",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=Burger)
 sideDish2.grid(row=0,column=1,padx=2,pady=2)
 
 sideDish2_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -402,7 +421,10 @@ drinks6.grid(row=2,column=2,padx=2,pady=2)
 
 drinks6_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks6_label.grid(row=3,column=2)
+print(product_entry.get())
 
 
+    
+    
 #call mainloop to keep the window visible
 mainloop()

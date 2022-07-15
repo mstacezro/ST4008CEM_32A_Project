@@ -3,6 +3,7 @@ from cgitb import text
 from textwrap import fill
 from tkinter import*
 from tkinter import ttk
+from tkinter import messagebox
 from tkinter.font import BOLD
 from PIL import Image, ImageTk
 import os
@@ -38,10 +39,26 @@ label.pack(fill=BOTH, expand = YES)
 
 
 def login():
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
     
+    c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(username_entry.get(),pin_entry.get()))
+    if c.fetchall():
+        c.execute("UPDATE Manager SET Status='inactive'")
+        conn.commit()
+        
+        c.execute("UPDATE Manager SET Status='active' WHERE manager_id=?",(username_entry.get()))
+        conn.commit()
+        
+        messagebox.showinfo('Login Sucessful','Welcome to the system')
+        root.destroy()
+        import staff_login
+    else:
+        messagebox.showinfo('Login unsucessful','Incorrect credentials')
 '''
 READ CRUD
 '''
+
 '''
 EDIT ICON FUNCTION
 '''
@@ -96,8 +113,10 @@ def manager_query():
 
     # add data to the treeview
     for record in records:
-        tree.insert('', END, values=record)
-
+        first_name=record[0]
+        last_name=record[1]
+        manager_id=record[11]
+        tree.insert("",END,values=(first_name,last_name,manager_id))
     #position of tree label
     tree.grid(row=0, column=0, sticky=NSEW)
 
@@ -169,15 +188,59 @@ def edit():
     # Create sign in button    
     supervisor_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
     supervisor_sign_in_btn.grid(row=6,column=1,columnspan=2)
-    
+def edit():
+    verification_edit=Toplevel()
+    verification_edit.title("Editor")
+    verification_edit.geometry("500x350")
+    verification_edit.configure(bg='#B1FB17')
+
+
+    username_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="Manager ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    username_label.grid(row=1,column=1, padx=10,pady=10)
+
+    pin_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    pin_label.grid(row=2,column=1, padx=10,pady=10)
+
+    #Create entry boxes
+    username_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27)
+    username_entry.grid(row=1,column=2,padx=10,pady=10)
+
+    pin_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27,show="*")
+    pin_entry.grid(row=2,column=2,padx=10,pady=10)
+
+
+    # Create sign in button    
+    sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+    sign_in_btn.grid(row=3,column=1,columnspan=2)
+
+
+    '''SUPERVISOR pin to reset manager pincode'''
+    supervisor_username_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="Supervisor ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    supervisor_username_label.grid(row=4,column=1, padx=10,pady=10)
+
+    supervisor_pin_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    supervisor_pin_label.grid(row=5,column=1, padx=10,pady=10)
+
+    #Create entry boxes
+    supervisor_username_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27)
+    supervisor_username_entry.grid(row=4,column=2,padx=10,pady=10)
+
+    supervisor_pin_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27,show="*")
+    supervisor_pin_entry.grid(row=5,column=2,padx=10,pady=10)
+
+
+    # Create sign in button    
+    supervisor_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+    supervisor_sign_in_btn.grid(row=6,column=1,columnspan=2)
+
 
 #edit button
 manager_edit=Image.open("img/edit.png")
 resized_edit_image=manager_edit.resize((90,90))
 converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
 
-edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=edit)
-edit.grid(row=0,column=1)
+Edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=edit)
+Edit.grid(row=0,column=1)
 
 #product_edit button
 product_edit=Image.open("img/burger.png")
@@ -246,7 +309,7 @@ pin_entry.grid(row=4,column=2,padx=10,pady=10)
     
 
 # Create sign in button    
-sign_in_btn=Button(login_frame,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+sign_in_btn=Button(login_frame,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=login)
 sign_in_btn.grid(row=6,column=1,columnspan=2)
 
 # Create sign up  button    

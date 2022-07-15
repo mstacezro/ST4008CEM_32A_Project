@@ -61,27 +61,28 @@ def manager_register():
     c=conn.cursor()
 
     '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
-    #the values of attributes is obtained by .get() from respective entry box
-    c.execute("INSERT INTO Manager VALUES(:f_name,:l_name,:age,:gender,:pin,:re_pin,:father_name, :phone, :address,:city,:zipcode)",{
-        'f_name':f_name.get(),
-        'l_name':l_name.get(),
-        'age':age.get(),
-        'gender':gender,
-        'pin':pin.get(),
-        're_pin':re_pin.get(),
-        'father_name':father_name.get(),
-        'phone':phone.get(),
-        'address':address.get(),
-        'city':city.get(),
-        'zipcode':zipcode.get()
-    })
-    # if pin.get()==re_pin.get():
-    #     #messagebox to show when datas are added 
-    #     messagebox.showinfo("Success","New manager is registered.")
-    # else:
-    #     messagebox.showinfo("ERROR"," PIN doesn't match.")
     
-    messagebox.showinfo("Success","New manager is registered.")
+    if f_name.get()=='' or l_name.get=='' or age.get()=='' or pin.get()=='' or re_pin.get()=='' or father_name.get()=='' or phone.get()=='' or address.get()=='' or city.get()=='' or zipcode.get()=='' or gender=='Gender' :
+        messagebox.showerror('Registration Faliure','Please fill all the details')
+    elif pin.get()!=re_pin.get():
+        messagebox.showerror('Registration Faliure',"Pin and repin doesn't match ")
+    elif len(phone.get())>10 or len(phone.get())<10:
+        messagebox.showerror('Registration Faliure',"Invalid phone number ")
+        
+        
+    else:
+            
+        #the values of attributes is obtained by .get() from respective entry box
+        c.execute("INSERT INTO Manager(f_name,l_name,age,pin,father_name,phone,address,city,zipcode,gender) VALUES(?,?,?,?,?,?,?,?,?,?)",(f_name.get(),l_name.get(),int(age.get()),pin.get(),father_name.get(),phone.get(),address.get(),city.get(),zipcode.get(),gender.get()))
+        # if pin.get()==re_pin.get():
+        #     #messagebox to show when datas are added 
+        #     messagebox.showinfo("Success","New manager is registered.")
+        # else:
+        #     messagebox.showinfo("ERROR"," PIN doesn't match.")
+        
+        messagebox.showinfo("Success","New manager is registered.")
+        root.destroy()
+        import manager_login
 
 
     '''
@@ -97,7 +98,7 @@ def manager_register():
     f_name.delete(0,END)
     l_name.delete(0,END)
     age.delete(0,END)
-    gender.delete(0,END)
+    # gender.delete(0,END)
     pin.delete(0,END)
     re_pin.delete(0,END)
     father_name.delete(0,END)
@@ -177,15 +178,13 @@ l_name.grid(row=2,column=1,padx=5)
 age=Entry(register_frame,width=45)
 age.grid(row=3,column=1,padx=5)
 
+#set the Menu initially
+gender=StringVar()
+gender.set("Gender")
 
-def add():
-    print()
-var=IntVar()
-gender=Radiobutton(register_frame,text='Male',variable= var, value=1,anchor= "w", command=add)
-gender.grid(row=4,column=1,padx=5)
-gender=Radiobutton(register_frame,text='Female',variable= var, value=2,anchor= "w", command=add)
-gender.grid(row=5,column=1,padx=5)
-
+#creating dropdown menu
+drop=OptionMenu(register_frame,gender,"Male","Female","Other")
+drop.grid(row=4,column=1,padx=5)
 pin=Entry(register_frame,width=45,show="*")
 pin.grid(row=6,column=1,padx=5)
 
