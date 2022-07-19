@@ -4,6 +4,7 @@ from textwrap import fill
 from tkinter import*
 from tkinter import ttk
 from tkinter import font
+from tkinter import messagebox
 from tkinter.font import BOLD
 from PIL import Image, ImageTk
 import os
@@ -34,6 +35,23 @@ label = ttk.Label(root, image = photo)
 label.bind('<Configure>', resize_image)
 label.pack(fill=BOTH, expand = YES)
 
+def login():
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    
+    c.execute("SELECT * FROM Staff WHERE staff_id=? and pin=?",(username_entry.get(),pin_entry.get()))
+    if c.fetchall():
+        c.execute("UPDATE Staff SET Status='inactive'")
+        conn.commit()
+        
+        c.execute("UPDATE Staff SET Status='active' WHERE staff_id=?",(username_entry.get()))
+        conn.commit()
+        
+        messagebox.showinfo('Login Sucessful','Welcome to the system')
+        root.destroy()
+        import GUI
+    else:
+        messagebox.showinfo('Login unsucessful','Incorrect credentials')
 
 '''
 READ CRUD
@@ -68,10 +86,7 @@ def staff_query():
     #Fetches the existing rows from a result set
     records=c.fetchall()
     print(records)
-    
-
-
-    
+     
     
     columns = ('first_name', 'last_name', 'Serial_No')
     
@@ -98,7 +113,10 @@ def staff_query():
 
     # add data to the treeview
     for record in records:
-        tree.insert('', END, values=record)
+        first_name=record[0]
+        last_name=record[1]
+        staff_id=record[11]
+        tree.insert('', END, values=(first_name,last_name,staff_id))
 
     #position of tree label
     tree.grid(row=0, column=0, sticky=NSEW)
@@ -172,8 +190,6 @@ def edit():
     manager_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
     manager_sign_in_btn.grid(row=6,column=1,columnspan=2)
     
-
-
 #edit button
 manager_edit=Image.open("img/edit.png")
 resized_edit_image=manager_edit.resize((90,90))
@@ -257,7 +273,7 @@ pin_entry=ttk.Entry(login_frame,font="arial 15 bold",width=27,show="*")
 pin_entry.grid(row=4,column=2,padx=10,pady=10)
 
 # Create sign in button    
-sign_in_btn=Button(login_frame,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+sign_in_btn=Button(login_frame,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=login)
 sign_in_btn.grid(row=6,column=1,columnspan=2)
 
 # Create sign up  button    

@@ -185,6 +185,7 @@ gender.set("Gender")
 #creating dropdown menu
 drop=OptionMenu(register_frame,gender,"Male","Female","Other")
 drop.grid(row=4,column=1,padx=5)
+
 pin=Entry(register_frame,width=45,show="*")
 pin.grid(row=6,column=1,padx=5)
 

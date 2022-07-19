@@ -70,7 +70,7 @@ def manager_query():
     '''
 
     info_query=Toplevel()
-    info_query.title("Datas of managers")
+    info_query.title("Datas of Managers")
     info_query.configure(bg='#B1FB17')
 
     #connect to main database
