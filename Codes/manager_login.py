@@ -127,10 +127,25 @@ def manager_query():
 
     
 
-'''frame for info/edit'''
+'''frame for info/edit/quit'''
 top_frame = Frame(root,width=900,height=100)
-top_frame.place(x=1060,y=10)
+top_frame.place(x=970,y=10)
 
+
+'''
+QUIT FUNCTION
+'''
+def quit():
+    root.destroy()
+
+
+#logout button
+program_quit=Image.open("img/quit.png")
+resized_logout_image=program_quit.resize((90,90))
+converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
+
+logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=quit)
+logout.grid(row=0,column=3)
 
 #info button
 manager_info=Image.open("img/information.png")
