@@ -19,6 +19,9 @@ root.title("STAFF LOGIN")
 #default fullscreen
 root.attributes('-fullscreen',True)
 
+# Database connection
+conn=sqlite3.connect('CRISTY_RECORD.db')
+c=conn.cursor()
 #setting photo as background
 def resize_image(event):
     new_width = event.width
@@ -165,9 +168,36 @@ def edit():
     pin_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27,show="*")
     pin_entry.grid(row=2,column=2,padx=10,pady=10)
     
+    def manager_login():
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+    
+        c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(manager_username_entry.get(),manager_pin_entry.get()))
+        if c.fetchall():
+            messagebox.showinfo('Login Sucessful','Welcome')
+            root.destroy()
+            import staff_UD
+        else:
+            messagebox.showinfo('Login unsucessful','Incorrect credentials')
+        conn.commit()
+        conn.close()
+    
+    def edit_login():
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+    
+        c.execute("SELECT * FROM Staff WHERE staff_id=? and pin=?",(username_entry.get(),pin_entry.get()))
+        if c.fetchall():
+            messagebox.showinfo('Login Sucessful','Welcome')
+            root.destroy()
+            import staff_UD
+        else:
+            messagebox.showinfo('Login unsucessful','Incorrect credentials')
+        conn.commit()
+        conn.close()
 
     # Create sign in button    
-    sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+    sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=edit_login)
     sign_in_btn.grid(row=3,column=1,columnspan=2)
     
     
@@ -187,7 +217,7 @@ def edit():
     
 
     # Create sign in button    
-    manager_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+    manager_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=manager_login)
     manager_sign_in_btn.grid(row=6,column=1,columnspan=2)
     
 #edit button
@@ -202,9 +232,21 @@ edit.grid(row=0,column=1)
 LOGOUT FUNCTION
 '''
 def backspace():
-    root.destroy()
-    os.system('python manager_login.py')
-
+    ask=messagebox.askyesno('Logout','DO YOU WANT TO LOGOUT?')
+    if ask==True:
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+        
+        c.execute("SELECT * FROM Manager WHERE status='active'")
+        if c.fetchall():
+            c.execute("UPDATE Manager SET status='inactive'")
+            conn.commit()
+            conn.close()
+            root.destroy()
+            import manager_login
+            
+    else:
+        pass
 #logout button
 manager_logout=Image.open("img/logout.png")
 resized_logout_image=manager_logout.resize((90,90))
@@ -238,9 +280,23 @@ def register_validate():
     pin_entry=ttk.Entry(register_verify,font="arial 15 bold",width=27,show="*")
     pin_entry.grid(row=2,column=2,padx=10,pady=10)
     
+    def managerRegister_login():
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+    
+        c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(username_entry.get(),pin_entry.get()))
+        if c.fetchall():
+            messagebox.showinfo('Login Sucessful','Welcome')
+            root.destroy()
+            import staff_registration
+        else:
+            messagebox.showinfo('Login unsucessful','Incorrect credentials')
+        
+        conn.commit()
+        conn.close()
 
     # Create sign in button    
-    sign_in_btn=Button(register_verify,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+    sign_in_btn=Button(register_verify,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=managerRegister_login)
     sign_in_btn.grid(row=3,column=1,columnspan=2)
     
 

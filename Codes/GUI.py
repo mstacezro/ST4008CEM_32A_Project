@@ -9,6 +9,7 @@ from turtle import width
 from PIL import Image, ImageTk
 import sqlite3
 import os
+from tkinter import messagebox
 
 
 # create an application window
@@ -22,9 +23,20 @@ root.title("POS")
 root.attributes('-fullscreen',True)
 
 def backspace():
-    root.destroy()
-    os.system('python staff_login.py')
-
+    ask=messagebox.askyesno('Logout','DO YOU WANT TO LOGOUT?')
+    if ask==True:
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+        
+        c.execute("SELECT * FROM Staff WHERE status='active'")
+        if c.fetchall():
+            c.execute("UPDATE Staff SET status='inactive'")
+            root.destroy()
+            os.system('python staff_login.py')
+        conn.commit()
+        conn.close()
+    else:
+        pass
 
 #setting photo as background
 def resize_image(event):

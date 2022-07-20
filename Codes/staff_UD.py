@@ -8,6 +8,7 @@ from tkinter.font import BOLD
 from PIL import Image, ImageTk
 import sqlite3
 from tkinter import messagebox
+import os
 
 # create an application window
 root= Tk()
@@ -37,6 +38,9 @@ label.bind('<Configure>', resize_image)
 label.pack(fill=BOTH, expand = YES)
 
 
+def backspace():
+    root.destroy()
+    os.system('python staff_login.py')
 
 '''FRAME'''
 '''Arrangement by GRID'''
@@ -264,13 +268,13 @@ age_editor=Entry(editor_frame,width=32)
 age_editor.grid(row=3,column=1,padx=5)
 
 
-def add():
-    print()
-var=IntVar()
-gender_editor=Radiobutton(editor_frame,text='Male',variable= var, value=1,anchor= "w", command=add)
-gender_editor.grid(row=4,column=1,padx=5)
-gender_editor=Radiobutton(editor_frame,text='Female',variable= var, value=2,anchor= "w", command=add)
-gender_editor.grid(row=5,column=1,padx=5)
+#set the Menu initially
+gender=StringVar()
+gender.set("Gender")
+
+#creating dropdown menu
+drop=OptionMenu(editor_frame,gender,"Male","Female","Other")
+drop.grid(row=4,column=1,padx=5)
 
 pin_editor=Entry(editor_frame,width=32,show="*")
 pin_editor.grid(row=6,column=1,padx=5)
@@ -318,8 +322,8 @@ back=Image.open("img/Back.png")
 resized_back_image=back.resize((90,90))
 converted_back_image=ImageTk.PhotoImage(resized_back_image)
 
-information=Button(back_frame,image=converted_back_image, text="BACK",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=NONE)
-information.grid(row=0,column=0)
+back_button=Button(back_frame,image=converted_back_image, text="BACK",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=backspace)
+back_button.grid(row=0,column=0)
 # commit change
 conn.commit()
 

@@ -55,6 +55,8 @@ def login():
         import staff_login
     else:
         messagebox.showinfo('Login unsucessful','Incorrect credentials')
+    conn.commit()
+    conn.close()
 '''
 READ CRUD
 '''
@@ -136,7 +138,13 @@ top_frame.place(x=970,y=10)
 QUIT FUNCTION
 '''
 def quit():
-    root.destroy()
+    ask=messagebox.askyesno("QUIT","DO YOU WANT TO QUIT?")
+    if ask==True:
+        root.destroy()
+        
+    else:
+        pass
+    # root.destroy()
 
 
 #logout button
@@ -144,7 +152,7 @@ program_quit=Image.open("img/quit.png")
 resized_logout_image=program_quit.resize((90,90))
 converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
 
-logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=quit)
+logout=Button(top_frame,image=converted_logout_image, text="QUIT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=quit)
 logout.grid(row=0,column=3)
 
 #info button
@@ -187,8 +195,77 @@ def edit():
             messagebox.showinfo('Login Successful','Welcome')
             root.destroy()
             import manager_UD
-        # else:
-        #     messagebox.showinfo('Invalid login','Enter valid info')
+        else:
+            messagebox.showinfo('Invalid login','Enter valid info')
+    def edit_login():
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+    
+        c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(username_entry.get(),pin_entry.get()))
+        if c.fetchall():
+            messagebox.showinfo('Login Sucessful','Welcome')
+            root.destroy()
+            import manager_UD
+        else:
+            messagebox.showinfo('Login unsucessful','Incorrect credentials')
+        conn.commit()
+        conn.close()
+    
+
+    # Create sign in button    
+    sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=edit_login)
+    sign_in_btn.grid(row=3,column=1,columnspan=2)
+    
+    
+    '''SUPERVISOR pin to reset manager pincode'''
+    supervisor_username_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="Supervisor ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    supervisor_username_label.grid(row=4,column=1, padx=10,pady=10)
+
+    supervisor_pin_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    supervisor_pin_label.grid(row=5,column=1, padx=10,pady=10)
+
+    #Create entry boxes
+    supervisor_username_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27)
+    supervisor_username_entry.grid(row=4,column=2,padx=10,pady=10)
+
+    supervisor_pin_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27,show="*")
+    supervisor_pin_entry.grid(row=5,column=2,padx=10,pady=10)
+    
+
+    # Create sign in button    
+    supervisor_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=supervisor_login)
+    supervisor_sign_in_btn.grid(row=6,column=1,columnspan=2)
+
+def edit1():
+    verification_edit=Toplevel()
+    verification_edit.title("Editor")
+    verification_edit.geometry("500x350")
+    verification_edit.configure(bg='#B1FB17')
+
+
+    username_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="Manager ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    username_label.grid(row=1,column=1, padx=10,pady=10)
+
+    pin_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    pin_label.grid(row=2,column=1, padx=10,pady=10)
+
+    #Create entry boxes
+    username_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27)
+    username_entry.grid(row=1,column=2,padx=10,pady=10)
+
+    pin_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27,show="*")
+    pin_entry.grid(row=2,column=2,padx=10,pady=10)
+    
+    
+    def supervisor_login():
+        if supervisor_username_entry.get()=='' or supervisor_pin_entry.get()=='':
+            messagebox.showerror('Login failed','please fill all the details')
+        elif supervisor_username_entry.get()== '101' and supervisor_pin_entry.get()=='0000':
+            messagebox.showinfo('Login Successful','Welcome')
+            root.destroy()
+            import product_details
+        else:
+            messagebox.showinfo('Invalid login','Enter valid info')
     def edit_login():
         conn=sqlite3.connect('CRISTY_RECORD.db')
         c=conn.cursor()
@@ -203,7 +280,7 @@ def edit():
             
             messagebox.showinfo('Login Sucessful','Welcome')
             root.destroy()
-            import manager_UD
+            import product_details
         else:
             messagebox.showinfo('Login unsucessful','Incorrect credentials')
     
@@ -231,51 +308,6 @@ def edit():
     # Create sign in button    
     supervisor_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=supervisor_login)
     supervisor_sign_in_btn.grid(row=6,column=1,columnspan=2)
-# def edit():
-#     verification_edit=Toplevel()
-#     verification_edit.title("Editor")
-#     verification_edit.geometry("500x350")
-#     verification_edit.configure(bg='#B1FB17')
-
-
-#     username_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="Manager ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
-#     username_label.grid(row=1,column=1, padx=10,pady=10)
-
-#     pin_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
-#     pin_label.grid(row=2,column=1, padx=10,pady=10)
-
-#     #Create entry boxes
-#     username_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27)
-#     username_entry.grid(row=1,column=2,padx=10,pady=10)
-
-#     pin_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27,show="*")
-#     pin_entry.grid(row=2,column=2,padx=10,pady=10)
-    
-
-
-#     # Create sign in button    
-#     sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
-#     sign_in_btn.grid(row=3,column=1,columnspan=2)
-
-
-#     '''SUPERVISOR pin to reset manager pincode'''
-#     supervisor_username_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="Supervisor ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
-#     supervisor_username_label.grid(row=4,column=1, padx=10,pady=10)
-
-#     supervisor_pin_label=Label(verification_edit, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
-#     supervisor_pin_label.grid(row=5,column=1, padx=10,pady=10)
-
-#     #Create entry boxes
-#     supervisor_username_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27)
-#     supervisor_username_entry.grid(row=4,column=2,padx=10,pady=10)
-
-#     supervisor_pin_entry=ttk.Entry(verification_edit,font="arial 15 bold",width=27,show="*")
-#     supervisor_pin_entry.grid(row=5,column=2,padx=10,pady=10)
-
-
-    # Create sign in button    
-    # supervisor_sign_in_btn=Button(verification_edit,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
-    # supervisor_sign_in_btn.grid(row=6,column=1,columnspan=2)
 
 
 #edit button
@@ -291,7 +323,7 @@ product_edit=Image.open("img/burger.png")
 resized_product_edit_image=product_edit.resize((90,90))
 converted_product_edit_image=ImageTk.PhotoImage(resized_product_edit_image)
 
-product_edit=Button(top_frame,image=converted_product_edit_image, text="PRODUCT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=edit)
+product_edit=Button(top_frame,image=converted_product_edit_image, text="PRODUCT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=edit1)
 product_edit.grid(row=0,column=2)
 '''
 REGISTER VALIDATION FUNCTION
@@ -316,9 +348,19 @@ def register_validate():
     pin_entry=ttk.Entry(register_verify,font="arial 15 bold",width=27,show="*")
     pin_entry.grid(row=2,column=2,padx=10,pady=10)
     
+    def supervisorRegister_login():
+        if username_entry.get()=='' or pin_entry.get()=='':
+            messagebox.showerror('Login failed','please fill all the details')
+        elif username_entry.get()== '101' and pin_entry.get()=='0000':
+            messagebox.showinfo('Login Successful','Welcome')
+            root.destroy()
+            import manager_registration 
+        else:
+            messagebox.showinfo('Invalid login','Enter valid info')
+    
 
     # Create sign in button    
-    sign_in_btn=Button(register_verify,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=NONE)
+    sign_in_btn=Button(register_verify,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=supervisorRegister_login)
     sign_in_btn.grid(row=3,column=1,columnspan=2)
     
 
@@ -363,5 +405,5 @@ sign_up_btn.grid(row=7,column=1,columnspan=2)
 notice_label=Label(login_frame,text="* NOTE: Registration under Supervisor only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
 notice_label.grid(row=8,column=0,columnspan=4)
 
-
+# conn.commit()
 mainloop()

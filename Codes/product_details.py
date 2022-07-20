@@ -40,7 +40,9 @@ label.bind('<Configure>', resize_image)
 label.pack(fill=BOTH, expand = YES)
 
 
-
+def backspace():
+    root.destroy()
+    os.system('python manager_login.py')
 # DATABASES
 #create a database or connect to one
 conn=sqlite3.connect('Products.db')
@@ -300,9 +302,6 @@ p_price.grid(row=2,column=1,padx=5)
 BACK FUNCTION
 '''
 
-def backspace():
-    root.destroy()
-    os.system('python product_login.py')
 
 #create back button
 back_btn=Button(product_frame,text="BACK",font=('Arial','10','bold'),bg='black',fg='white',width=5,command=backspace)
