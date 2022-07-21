@@ -205,7 +205,34 @@ def edit():
     edit_btn=Button(editor_frame,text="Update",bg='#046307',fg='white',command=update)
     edit_btn.grid(row=8,column=0,pady=10,padx=10,ipadx=100)
 
-
+def edit():
+    global f_name_editor,l_name_editor,age_editor
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    
+    c.execute("SELECT * FROM Manager WHERE status='active'")
+    data=c.fetchall()
+    
+    for i in data:
+        f_name_editor.insert(0,i[0])
+        l_name_editor.insert(0,i[1])
+        age_editor.insert(0,i[2])
+        gender.set(i[3])
+        pin_editor.insert(0,i[4])
+        re_pin_editor.insert(0,i[4])
+        father_editor_name.insert(0,i[6])
+        phone_editor.insert(0,i[7])
+        address_editor.insert(0,i[8])
+        city_editor.insert(0,i[9])
+        zipcode_editor.insert(0,i[10])
+        
+        
+    
+    conn.commit()
+    conn.close()
+    
+    
+    
 
     
 
@@ -297,6 +324,7 @@ city_editor.grid(row=11,column=1,padx=5)
 zipcode_editor=Entry(editor_frame,width=32)
 zipcode_editor.grid(row=12,column=1,padx=5)
 
+edit()  
 delete_box_label=Label(editor_frame,text="ID-delete/update",width=15, anchor="w",bg="red",fg='black')
 delete_box_label.grid(row=13,column=0,pady=2)
 
@@ -315,7 +343,7 @@ edit_box_btn.grid(row=15,column=0,columnspan=2,pady=1,padx=10,ipadx=120)
 '''FRAME'''
 # Create  Back Frame
 back_frame = Frame(root,width=50,height=50)
-back_frame.place(x=1250,y=640)
+back_frame.place(x=1265,y=630)
 
 #back button
 back=Image.open("img/Back.png")

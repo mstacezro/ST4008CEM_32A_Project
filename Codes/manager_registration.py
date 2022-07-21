@@ -169,7 +169,7 @@ zipcode_label.grid(row=12,column=0,padx=5,pady=2)
 ENTRY
 '''
 # Create text entries
-f_name=Entry(register_frame,width=45,bg='white')
+f_name=Entry(register_frame ,width=45,bg='white')
 f_name.grid(row=1,column=1,padx=5)
 
 l_name=Entry(register_frame,width=45)

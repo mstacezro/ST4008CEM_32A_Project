@@ -315,7 +315,7 @@ edit_box_btn.grid(row=15,column=0,columnspan=2,pady=1,padx=10,ipadx=120)
 '''FRAME'''
 # Create  Back Frame
 back_frame = Frame(root,width=50,height=50)
-back_frame.place(x=1250,y=640)
+back_frame.place(x=1265,y=630)
 
 #back button
 back=Image.open("img/Back.png")

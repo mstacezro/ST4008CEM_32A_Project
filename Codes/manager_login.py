@@ -203,6 +203,11 @@ def edit():
     
         c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(username_entry.get(),pin_entry.get()))
         if c.fetchall():
+            c.execute("UPDATE Manager SET Status='inactive'")
+            conn.commit()
+        
+            c.execute("UPDATE Manager SET Status='active' WHERE manager_id=?",(username_entry.get()))
+            conn.commit()
             messagebox.showinfo('Login Sucessful','Welcome')
             root.destroy()
             import manager_UD

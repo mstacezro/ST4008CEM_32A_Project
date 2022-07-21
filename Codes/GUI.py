@@ -120,24 +120,25 @@ def order_add():
 
 '''frame for date/time/info/logout'''
 top_frame = Frame(root,width=900,height=100)
-top_frame.place(x=1060,y=10)
+top_frame.place(x=1270,y=10)
+# top_frame.place(x=1060,y=10)
 
 
-#info button
-manager_info=Image.open("img/information.png")
-resized_info_image=manager_info.resize((90,90))
-converted_info_image=ImageTk.PhotoImage(resized_info_image)
+# #info button
+# manager_info=Image.open("img/information.png")
+# resized_info_image=manager_info.resize((90,90))
+# converted_info_image=ImageTk.PhotoImage(resized_info_image)
 
-information=Button(top_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=NONE)
-information.grid(row=0,column=0)
+# information=Button(top_frame,image=converted_info_image, text="INFO",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=NONE)
+# information.grid(row=0,column=0)
 
-#edit button
-manager_edit=Image.open("img/edit.png")
-resized_edit_image=manager_edit.resize((90,90))
-converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
+# #edit button
+# manager_edit=Image.open("img/edit.png")
+# resized_edit_image=manager_edit.resize((90,90))
+# converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
 
-edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=NONE)
-edit.grid(row=0,column=1)
+# edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=NONE)
+# edit.grid(row=0,column=1)
 
 #logout button
 manager_logout=Image.open("img/logout.png")
@@ -189,7 +190,7 @@ total_entry=Entry(order_frame,width=30)
 total_entry.grid(row=8,column=0,pady=10)
 
 # Create add button
-add_box_btn=Button(order_frame,text="ADD",font=('Arial','20','bold'),bg='blue',fg='white',width=16,command=order_add)
+add_box_btn=Button(order_frame,text="ADD",font=('Arial','15','bold'),bg='blue',fg='white',width=16,command=order_add)
 add_box_btn.grid(row=9,column=0 )
 
 delete_box_label=Label(order_frame,text="ID-delete/update",width=15, anchor="w",bg="red",fg='black')
@@ -199,15 +200,15 @@ delete_box=Entry(order_frame,width=32,bg='grey',fg='white')
 delete_box.grid(row=11,column=0,pady=2)
 
 # Create delete button
-delete_box_btn=Button(order_frame,text="DELETE",font=('Arial','20','bold'),bg='red',width=16,command=NONE)
+delete_box_btn=Button(order_frame,text="DELETE",font=('Arial','15','bold'),bg='red',width=16,command=NONE)
 delete_box_btn.grid(row=12,column=0)
 
 # Create update button
-edit_box_btn=Button(order_frame,text="UPDATE",font=('Arial','20','bold'),bg='#046307',fg='white',width=16,command=NONE)
+edit_box_btn=Button(order_frame,text="UPDATE",font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=NONE)
 edit_box_btn.grid(row=13,column=0 )
 
 # Create clear button
-clear_box_btn=Button(order_frame,text="CLEAR",font=('Arial','20','bold'),bg='yellow',fg='red',width=16,command=NONE)
+clear_box_btn=Button(order_frame,text="CLEAR",font=('Arial','15','bold'),bg='yellow',fg='red',width=16,command=NONE)
 clear_box_btn.grid(row=14,column=0 )
 
 """ Frame for billing"""
