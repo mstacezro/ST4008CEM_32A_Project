@@ -246,7 +246,7 @@ burger1=Image.open("img/BuffBurger.PNG")
 resized_burger1=burger1.resize((200,150))
 converted_burger1=ImageTk.PhotoImage(resized_burger1)
 
-burger1=Button(burger_tab,image=converted_burger1, text="Buff Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=Burger)
+burger1=Button(burger_tab,image=converted_burger1, text="Buff Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput('Buff Burger'))
 burger1.grid(row=0,column=0,padx=2,pady=2)
 
 burger1_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -299,7 +299,7 @@ burger6=Image.open("img/PorkBurger.png")
 resized_burger6=burger6.resize((200,150))
 converted_burger6=ImageTk.PhotoImage(resized_burger6)
 
-burger1=Button(burger_tab,image=converted_burger6, text="Pork Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=Burger)
+burger1=Button(burger_tab,image=converted_burger6, text="Pork Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Pork Burger"))
 burger1.grid(row=2,column=2,padx=2,pady=2)
 
 burger6_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -321,7 +321,7 @@ sideDish2=Image.open("img/ChickenWings.png")
 resized_sideDish2=sideDish2.resize((200,150))
 converted_sideDish2=ImageTk.PhotoImage(resized_sideDish2)
 
-sideDish2=Button(sideDish_tab,image=converted_sideDish2, text="Chicken Wings",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=Burger)
+sideDish2=Button(sideDish_tab,image=converted_sideDish2, text="Chicken Wings",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Wings"))
 sideDish2.grid(row=0,column=1,padx=2,pady=2)
 
 sideDish2_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)

@@ -174,6 +174,13 @@ def edit():
     
         c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(manager_username_entry.get(),manager_pin_entry.get()))
         if c.fetchall():
+            conn=sqlite3.connect('CRISTY_RECORD.db')
+            c=conn.cursor()
+            c.execute("SELECT * FROM Staff WHERE status='active' ")
+            if c.fetchall():
+                c.execute("UPDATE Staff SET status='inactive'")
+            else:
+                pass
             messagebox.showinfo('Login Sucessful','Welcome')
             root.destroy()
             import staff_UD
@@ -188,6 +195,11 @@ def edit():
     
         c.execute("SELECT * FROM Staff WHERE staff_id=? and pin=?",(username_entry.get(),pin_entry.get()))
         if c.fetchall():
+            c.execute("UPDATE Staff SET Status='inactive'")
+            conn.commit()
+        
+            c.execute("UPDATE Staff SET Status='active' WHERE staff_id=?",(username_entry.get()))
+            conn.commit()
             messagebox.showinfo('Login Sucessful','Welcome')
             root.destroy()
             import staff_UD
