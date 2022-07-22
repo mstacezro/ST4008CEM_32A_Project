@@ -1,5 +1,4 @@
 import sqlite3
-from tkinter import mainloop
 
 '''
 cursor class is an instance using which you can invoke methods that execute 
@@ -81,7 +80,22 @@ try:
 except:
     pass
 
-# c.execute("DROP TABLE Product")
+'''
+Order Table
+'''
+
+try:
+    c.execute("""CREATE TABLE order_table(
+        order_id integer PRIMARY KEY AUTOINCREMENT,
+        product_name,
+        quantity integer,
+        price integer,
+        total_price integer
+    )""")
+except:
+    pass
+
+# c.execute("DROP TABLE IF EXISTS order_table")
 conn.commit()
 conn.close()
 # mainloop()
