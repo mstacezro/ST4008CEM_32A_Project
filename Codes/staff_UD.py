@@ -339,7 +339,7 @@ myLabel.grid(row=0, column=0, columnspan=2)
 
 # DATABASES
 # create a database or connect to one
-conn = sqlite3.connect('staff_details.db')
+conn = sqlite3.connect('CRISTY_RECORD.db')
 
 # create a cursor
 '''

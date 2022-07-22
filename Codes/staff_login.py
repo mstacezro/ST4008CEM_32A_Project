@@ -254,7 +254,7 @@ def backspace():
         c=conn.cursor()
         
         c.execute("SELECT * FROM Manager WHERE Status='active'")
-
+        conn.commit()
         c.execute("UPDATE Manager SET Status='inactive'")
         root.destroy()
         os.system('python manager_login.py')

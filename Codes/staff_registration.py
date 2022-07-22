@@ -38,7 +38,7 @@ label.pack(fill=BOTH, expand = YES)
 
 # DATABASES
 #create a database or connect to one
-conn=sqlite3.connect('staff_details.db')
+conn=sqlite3.connect('CRISTY_RECORD.db')
 
 #create a cursor
 '''
@@ -68,10 +68,11 @@ def staff_register():
         messagebox.showerror('Registration Faliure',"Invalid phone number ")
         
     else:   
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
         #the values of attributes is obtained by .get() from respective entry box
-        c.execute("INSERT INTO Staff(f_name,l_name,age,pin,father_name,phone,address,city,zipcode,gender) VALUES(?,?,?,?,?,?,?,?,?,?)",
-                  (f_name.get(),l_name.get(),int(age.get()),pin.get(),father_name.get(),phone.get(),
-                   address.get(),city.get(),zipcode.get(),gender.get()))
+        c.execute("INSERT INTO Staff(f_name,l_name,age,pin,father_name,phone,address,city,zipcode,gender) VALUES(?,?,?,?,?,?,?,?,?,?)",(f_name.get(),l_name.get(),int(age.get()),pin.get(),father_name.get(),phone.get(),address.get(),city.get(),zipcode.get(),gender.get()))
+        conn.commit()
         # if pin.get()==re_pin.get():
         #     #messagebox to show when datas are added 
         #     messagebox.showinfo("Success","New staff is registered.")

@@ -181,8 +181,19 @@ def edit():
     def supervisor_login():
         '''This function authenciates supervisor login'''
         if supervisor_username_entry.get()=='' or supervisor_pin_entry.get()=='':
+            
             messagebox.showerror('Login failed','please fill all the details')
         elif supervisor_username_entry.get()== '101' and supervisor_pin_entry.get()=='0000':
+            conn=sqlite3.connect('CRISTY_RECORD.db')
+            c=conn.cursor()
+            c.execute("SELECT * FROM Manager WHERE status='active' ")
+            if c.fetchall():
+                c.execute("UPDATE Manager SET status='inactive'")
+                conn.commit()
+            else:
+                pass
+            conn.commit()
+            conn.close()
             messagebox.showinfo('Login Successful','Welcome')
             root.destroy()
             import manager_UD
