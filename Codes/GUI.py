@@ -65,7 +65,40 @@ def setTextInput(text):
     product_entry.delete(0,"end")
     product_entry.insert(0, text)
 
+def order_add():
+    global total_amount
+    '''
+    This function adds order details as data to the bill table
+    '''
+    qty=quantity_dropdown.get()
+    #connect to the database 
+    conn=sqlite3.connect('CRISTY_RECORD.db')
 
+    #create cursor
+    c=conn.cursor()
+
+    '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
+    #the values of attributes is obtained by .get() from respective entry box
+    c.execute("SELECT * FROM Product WHERE product_name=? ",(product_entry.get(),))
+    if c.fetchall:
+        data=c.fetchall()
+        for i in data:
+            name=i[0]
+            price=i[1]
+            total=int(qty)*int(price)
+
+
+        c.execute("INSERT INTO order_table(product_name,quantity,price,total_price) VALUES(?,?,?,?)",(name,qty,price,total))
+        cart_treeview.insert('',END,values=(name,price,qty,total))
+
+        c.execute("SELECT * FROM order_table")
+        data=c.fetchall()
+        total_amount=0
+        for i in data:
+            total_amount=total_amount+i[4]
+
+        total_amount_place=Label(bill_frame,text='Rs'+str(total_amount))
+        total_amount_place.place(x=200,y=400)
         
 
 
