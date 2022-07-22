@@ -11,6 +11,8 @@ import sqlite3
 import os
 from tkinter import messagebox
 
+conn=sqlite3.connect('CRISTY_RECORD.db')
+c=conn.cursor()
 
 # create an application window
 root= Tk()
@@ -63,39 +65,12 @@ def setTextInput(text):
     product_entry.delete(0,"end")
     product_entry.insert(0, text)
 
-def Burger():
-    text=burger1.cget('text')
-    setTextInput(text)
-    conn=sqlite3.connect("CRISTY_RECORD.db")
-    c=conn.cursor()
-    
-    c.execute('SELECT * FROM Product WHERE product_name=?',(text))
-    data=c.fetchall()
-    
-    for i in data:
-        price=i[1]
-    print(price)
-    rate_entry.insert(0,price)
-    conn.commit()
-    conn.close()
-def order_add():
-    '''
-    This function adds order details as data to the bill table
-    '''
-    #connect to the database 
-    conn=sqlite3.connect('RECORD.db')
 
-    #create cursor
-    c=conn.cursor()
+        
 
-    '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
-    #the values of attributes is obtained by .get() from respective entry box
-    c.execute("INSERT INTO order VALUES(:product,:rate,:quantity,:total_cost)",{
-        'product':product_entry.get(),
-        'rate':rate_entry.get(),
-        'quantity':quantity_dropdown.get(),
-        'total_cost':total_entry.get()
-    })
+
+
+
 
    
     '''
@@ -208,17 +183,45 @@ delete_box_btn.grid(row=12,column=0)
 edit_box_btn=Button(order_frame,text="UPDATE",font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=NONE)
 edit_box_btn.grid(row=13,column=0 )
 
+
+def clear():
+    cart_treeview.delete(*cart_treeview.get_children())
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+
+    c.execute('DELETE FROM order_table')
+    messagebox.showinfo('Deltete','Delteted Successfully')
+    conn.commit()
+    conn.close()
 # Create clear button
-clear_box_btn=Button(order_frame,text="CLEAR",font=('Arial','15','bold'),bg='yellow',fg='red',width=16,command=NONE)
+clear_box_btn=Button(order_frame,text="CLEAR",font=('Arial','15','bold'),bg='yellow',fg='red',width=16,command=clear)
 clear_box_btn.grid(row=14,column=0 )
 
 """ Frame for billing"""
-bill_frame = Frame(root,width=400,height=600)
+bill_frame = Frame(root,width=600,height=800)
 bill_frame.place(x=960,y=160)
 
+columns=('Product','Rate','Quantity','Total')
+cart_treeview=ttk.Treeview(bill_frame,columns=columns,show='headings',height=18)
+
+cart_treeview.column('#1',anchor=CENTER,width=200)
+cart_treeview.column('# 2',anchor=CENTER,stretch=NO,width=80)
+cart_treeview.column('# 3',anchor=CENTER,stretch=NO,width=30)
+cart_treeview.column('# 2',anchor=CENTER,stretch=NO,width=100)
 
 
+# define headings
+# cart_treeview.heading('S.N.',text='S.N.')
+cart_treeview.heading('Product', text='Product')
+cart_treeview.heading('Rate', text='Rate')
+cart_treeview.heading('Quantity', text='Qty')
+cart_treeview.heading('Total', text='Total')
 
+cart_treeview.place(x=0,y=0)
+
+
+total_amount_label=Label(bill_frame,text='Total amount :')
+total_amount_label.place(x=0,y=400)
 '''
 TAB frame'''
 tab_frame = Frame(root,width=800,height=600)
