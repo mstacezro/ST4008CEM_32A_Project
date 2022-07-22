@@ -15,7 +15,6 @@ root= Tk()
 #create the root title for the project
 root.title("MANAGER REGISTRATION")
 
-
 '''FULLSCREEN'''
 #default fullscreen
 root.attributes('-fullscreen',True)
@@ -39,6 +38,8 @@ label.pack(fill=BOTH, expand = YES)
 
 
 
+
+
 # DATABASES
 #create a database or connect to one
 conn=sqlite3.connect('CRISTY_RECORD.db')
@@ -52,7 +53,9 @@ c=conn.cursor()
 
 def manager_register():
     '''
-    This function adds user details as data to the database table
+    This function adds user details as data to the database table.
+    Input is text from entrybox and successful output is registration of manager
+    by supervisor 
     '''
     #connect to the database 
     conn=sqlite3.connect('CRISTY_RECORD.db')
@@ -73,7 +76,9 @@ def manager_register():
     else:
             
         #the values of attributes is obtained by .get() from respective entry box
-        c.execute("INSERT INTO Manager(f_name,l_name,age,pin,father_name,phone,address,city,zipcode,gender) VALUES(?,?,?,?,?,?,?,?,?,?)",(f_name.get(),l_name.get(),int(age.get()),pin.get(),father_name.get(),phone.get(),address.get(),city.get(),zipcode.get(),gender.get()))
+        c.execute("INSERT INTO Manager(f_name,l_name,age,pin,father_name,phone,address,city,zipcode,gender) VALUES(?,?,?,?,?,?,?,?,?,?)",
+                  (f_name.get(),l_name.get(),int(age.get()),pin.get(),father_name.get(),
+                   phone.get(),address.get(),city.get(),zipcode.get(),gender.get()))
         # if pin.get()==re_pin.get():
         #     #messagebox to show when datas are added 
         #     messagebox.showinfo("Success","New manager is registered.")
@@ -107,62 +112,83 @@ def manager_register():
     city.delete(0,END)
     zipcode.delete(0,END)
 
-
-
 '''FRAME'''
 '''Arrangement by GRID'''
 # Create Frame
 register_frame = Frame(root,width=230,height=590,highlightthickness=10,highlightbackground='yellow')
 register_frame.place(x=10,y=172)
 
-
 '''LABELS'''
 # Create textbox labels and image labels
 manager_profile=Image.open("img/manager.png")
 resized_image=manager_profile.resize((150,150))
 converted_image=ImageTk.PhotoImage(resized_image)
-myLabel=Label(register_frame,image=converted_image, text="MANAGER REGISTRATION",font=('Arial','20','bold'),compound='top')
+myLabel=Label(register_frame,image=converted_image, text="MANAGER REGISTRATION",
+              font=('Arial','20','bold'),compound='top')
 
+'''
+BACK FUNCTION
+'''
+
+def backspace():
+    '''This function returns back to previous page by clicking
+    the back button'''
+    root.destroy()
+    os.system('python manager_login.py')
+
+#create back button
+back_btn=Button(register_frame,text="BACK",font=('Arial','10','bold'),bg='black',
+                fg='white',width=5,command=backspace)
+back_btn.grid(row=0,column=0)
 myLabel.grid(row=0,column=1,columnspan=1)
-
 
 '''
 Labels
 '''
-    
 
 # Create textbox labels
-f_name_label=Label(register_frame,text="First Name",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+f_name_label=Label(register_frame,text="First Name",borderwidth=2,relief=GROOVE, 
+                   font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 f_name_label.grid(row=1,column=0,padx=5,pady=2)
 
-l_name_label=Label(register_frame,text="Last Name",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+l_name_label=Label(register_frame,text="Last Name",borderwidth=2,relief=GROOVE, 
+                   font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 l_name_label.grid(row=2,column=0,padx=5,pady=2)
 
-age_label=Label(register_frame,text="Age",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+age_label=Label(register_frame,text="Age",borderwidth=2,relief=GROOVE, 
+                font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 age_label.grid(row=3,column=0,padx=5,pady=2)
 
-gender_label=Label(register_frame,text="Gender",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+gender_label=Label(register_frame,text="Gender",borderwidth=2,relief=GROOVE, 
+                   font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 gender_label.grid(row=4,column=0,padx=5,pady=2)
 
-pin_label=Label(register_frame,text="Pin",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+pin_label=Label(register_frame,text="Pin",borderwidth=2,relief=GROOVE, 
+                font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 pin_label.grid(row=6,column=0,padx=5,pady=2)
 
-re_pin_label=Label(register_frame,text="Re-pin",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+re_pin_label=Label(register_frame,text="Re-pin",borderwidth=2,relief=GROOVE, 
+                   font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 re_pin_label.grid(row=7,column=0,padx=5,pady=2)
 
-father_name_label=Label(register_frame,text="Father Name",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+father_name_label=Label(register_frame,text="Father Name",borderwidth=2,relief=GROOVE, 
+                        font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 father_name_label.grid(row=8,column=0,padx=5,pady=2)
 
-phone_label=Label(register_frame,text="Phone",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+phone_label=Label(register_frame,text="Phone",borderwidth=2,relief=GROOVE, 
+                  font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 phone_label.grid(row=9,column=0,padx=5,pady=2)
 
-address_label=Label(register_frame,text="Address",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+address_label=Label(register_frame,text="Address",borderwidth=2,relief=GROOVE, 
+                    font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 address_label.grid(row=10,column=0,padx=5,pady=2)
 
-city_label=Label(register_frame,text="City",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+city_label=Label(register_frame,text="City",borderwidth=2,relief=GROOVE, 
+                 font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 city_label.grid(row=11,column=0,padx=5,pady=2)
 
-zipcode_label=Label(register_frame,text="zipcode",borderwidth=2,relief=GROOVE, font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
+zipcode_label=Label(register_frame,text="zipcode",borderwidth=2,relief=GROOVE, 
+                    font=('Arial','11','bold'),width=11, anchor="w",bg='#C04000',fg='white')
 zipcode_label.grid(row=12,column=0,padx=5,pady=2)
 
 '''
@@ -208,27 +234,10 @@ zipcode=Entry(register_frame,width=45)
 zipcode.grid(row=12,column=1,padx=5)
 
 
-
-'''
-BACK FUNCTION
-'''
-
-def backspace():
-    root.destroy()
-    os.system('python manager_login.py')
-
-#create back button
-back_btn=Button(register_frame,text="BACK",font=('Arial','10','bold'),bg='black',fg='white',width=5,command=backspace)
-back_btn.grid(row=0,column=0)
-
-'''REGISTER VALID FUNCTION'''
-
-
 # Create register button    
-register_btn=Button(register_frame,text="REGISTER",font=('Arial','20','bold'),bg='#046307',fg='white',command=manager_register)
+register_btn=Button(register_frame,text="REGISTER",font=('Arial','20','bold'),bg='#046307',
+                    fg='white',command=manager_register)
 register_btn.grid(row=13,column=0,padx=10,pady=10,columnspan=2,ipadx=120)
-
-
 
 # commit change
 conn.commit()

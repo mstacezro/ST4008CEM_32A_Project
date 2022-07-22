@@ -55,7 +55,8 @@ def login():
         import GUI
     else:
         messagebox.showinfo('Login unsucessful','Incorrect credentials')
-
+    conn.commit()
+    conn.close()
 '''
 READ CRUD
 '''
@@ -73,7 +74,6 @@ def staff_query():
 
     #connect to main database
     conn=sqlite3.connect('CRISTY_RECORD.db')
-    c=conn.cursor()
     
     #create cursor
     c=conn.cursor()
@@ -128,6 +128,9 @@ def staff_query():
     vbar = ttk.Scrollbar(info_query, orient=VERTICAL, command=tree.yview)
     tree.configure(yscrollcommand=vbar.set)
     vbar.grid(row=0, column=1, sticky=NS)
+    
+    conn.commit()
+    conn.close()
 
     
 
@@ -179,6 +182,7 @@ def edit():
             c.execute("SELECT * FROM Staff WHERE status='active' ")
             if c.fetchall():
                 c.execute("UPDATE Staff SET status='inactive'")
+                conn.commit()
             else:
                 pass
             messagebox.showinfo('Login Sucessful','Welcome')
@@ -249,14 +253,13 @@ def backspace():
         conn=sqlite3.connect('CRISTY_RECORD.db')
         c=conn.cursor()
         
-        c.execute("SELECT * FROM Manager WHERE status='active'")
-        if c.fetchall():
-            c.execute("UPDATE Manager SET status='inactive'")
-            conn.commit()
-            conn.close()
-            root.destroy()
-            import manager_login
-            
+        c.execute("SELECT * FROM Manager WHERE Status='active'")
+
+        c.execute("UPDATE Manager SET Status='inactive'")
+        root.destroy()
+        os.system('python manager_login.py')
+        conn.commit()
+        conn.close()
     else:
         pass
 #logout button
@@ -351,4 +354,7 @@ sign_up_btn.grid(row=7,column=1,columnspan=2)
 notice_label=Label(login_frame,text="* NOTE: Registration under Manager only!",font=('Arial','10','italic'),anchor="c",fg='red',width= 40)
 notice_label.grid(row=8,column=0,columnspan=4)
 
+
+conn.commit()
+conn.cursor()
 mainloop()

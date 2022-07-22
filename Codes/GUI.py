@@ -31,6 +31,7 @@ def backspace():
         c.execute("SELECT * FROM Staff WHERE status='active'")
         if c.fetchall():
             c.execute("UPDATE Staff SET status='inactive'")
+            conn.commit()
             root.destroy()
             os.system('python staff_login.py')
         conn.commit()
