@@ -139,6 +139,82 @@ def staff_query():
 top_frame = Frame(root,width=900,height=100)
 top_frame.place(x=1060,y=10)
 
+'''
+LOGOUT FUNCTION
+'''
+def backspace():
+    '''THis function logouts the active account. Input is a click on the button with the confirmation from a dialogue box and output returns back to the previous page'''
+    
+    ask=messagebox.askyesno('Logout','DO YOU WANT TO LOGOUT?')
+    if ask==True:
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+        
+        c.execute("SELECT * FROM Manager WHERE Status='active'")
+        conn.commit()
+        c.execute("UPDATE Manager SET Status='inactive'")
+        root.destroy()
+        os.system('python manager_login.py')
+        conn.commit()
+        conn.close()
+    else:
+        pass
+#logout button
+manager_logout=Image.open("img/logout.png")
+resized_logout_image=manager_logout.resize((90,90))
+converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
+
+logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=backspace)
+logout.grid(row=0,column=2)
+
+
+'''
+REGISTER VALIDATION FUNCTION
+'''
+
+def register_validate():
+    '''This function verifies supervisor for registering new managers. 
+    Input is entry in the entrybox '''
+    register_verify=Toplevel()
+    register_verify.title("Editor")
+    register_verify.geometry("500x200")
+    register_verify.configure(bg='#B1FB17')
+
+
+    username_label=Label(register_verify, borderwidth=3,relief=GROOVE,text="Manager ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    username_label.grid(row=1,column=1, padx=10,pady=10)
+
+    pin_label=Label(register_verify, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
+    pin_label.grid(row=2,column=1, padx=10,pady=10)
+
+    #Create entry boxes
+    username_entry=ttk.Entry(register_verify,font="arial 15 bold",width=27)
+    username_entry.grid(row=1,column=2,padx=10,pady=10)
+
+    pin_entry=ttk.Entry(register_verify,font="arial 15 bold",width=27,show="*")
+    pin_entry.grid(row=2,column=2,padx=10,pady=10)
+    
+    def managerRegister_login():
+        '''This function checks manager details and give success maessage if it is correct'''
+        
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+    
+        c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(username_entry.get(),pin_entry.get()))
+        if c.fetchall():
+            messagebox.showinfo('Login Sucessful','Welcome')
+            root.destroy()
+            import staff_registration
+        else:
+            messagebox.showinfo('Login unsucessful','Incorrect credentials')
+        
+        conn.commit()
+        conn.close()
+
+    # Create sign in button    
+    sign_in_btn=Button(register_verify,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=managerRegister_login)
+    sign_in_btn.grid(row=3,column=1,columnspan=2)
+    
 #info button
 manager_info=Image.open("img/information.png")
 resized_info_image=manager_info.resize((90,90))
@@ -152,6 +228,9 @@ TOPLEVEL VERIFICATION for EDIT'''
 '''The toplevel widget is used when a python application needs to represent 
 some extra information, pop-up, or the group of widgets on the new window.'''
 def edit():
+    '''This function enables modification in manager table. 
+    Input is manager credentials and output is redirection to manager UD page'''
+    
     verification_edit=Toplevel()
     verification_edit.title("Editor")
     verification_edit.geometry("500x350")
@@ -172,6 +251,7 @@ def edit():
     pin_entry.grid(row=2,column=2,padx=10,pady=10)
     
     def manager_login():
+        '''This function authenciates manager login'''
         conn=sqlite3.connect('CRISTY_RECORD.db')
         c=conn.cursor()
     
@@ -194,6 +274,7 @@ def edit():
         conn.close()
     
     def edit_login():
+        '''This function authenciates staff login'''
         conn=sqlite3.connect('CRISTY_RECORD.db')
         c=conn.cursor()
     
@@ -244,78 +325,8 @@ converted_edit_image=ImageTk.PhotoImage(resized_edit_image)
 edit=Button(top_frame,image=converted_edit_image, text="EDIT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=edit)
 edit.grid(row=0,column=1)
 
-'''
-LOGOUT FUNCTION
-'''
-def backspace():
-    ask=messagebox.askyesno('Logout','DO YOU WANT TO LOGOUT?')
-    if ask==True:
-        conn=sqlite3.connect('CRISTY_RECORD.db')
-        c=conn.cursor()
-        
-        c.execute("SELECT * FROM Manager WHERE Status='active'")
-        conn.commit()
-        c.execute("UPDATE Manager SET Status='inactive'")
-        root.destroy()
-        os.system('python manager_login.py')
-        conn.commit()
-        conn.close()
-    else:
-        pass
-#logout button
-manager_logout=Image.open("img/logout.png")
-resized_logout_image=manager_logout.resize((90,90))
-converted_logout_image=ImageTk.PhotoImage(resized_logout_image)
 
-logout=Button(top_frame,image=converted_logout_image, text="LOGOUT",font=('Arial','11','bold'),bg='white',compound='top',pady=10,command=backspace)
-logout.grid(row=0,column=2)
-
-
-'''
-REGISTER VALIDATION FUNCTION
-'''
-
-def register_validate():
-    register_verify=Toplevel()
-    register_verify.title("Editor")
-    register_verify.geometry("500x200")
-    register_verify.configure(bg='#B1FB17')
-
-
-    username_label=Label(register_verify, borderwidth=3,relief=GROOVE,text="Manager ID",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
-    username_label.grid(row=1,column=1, padx=10,pady=10)
-
-    pin_label=Label(register_verify, borderwidth=3,relief=GROOVE,text="PIN",font=('Arial','15','bold'),width=12, anchor="w",bg='#C04000',fg='white')
-    pin_label.grid(row=2,column=1, padx=10,pady=10)
-
-    #Create entry boxes
-    username_entry=ttk.Entry(register_verify,font="arial 15 bold",width=27)
-    username_entry.grid(row=1,column=2,padx=10,pady=10)
-
-    pin_entry=ttk.Entry(register_verify,font="arial 15 bold",width=27,show="*")
-    pin_entry.grid(row=2,column=2,padx=10,pady=10)
-    
-    def managerRegister_login():
-        conn=sqlite3.connect('CRISTY_RECORD.db')
-        c=conn.cursor()
-    
-        c.execute("SELECT * FROM Manager WHERE manager_id=? and pin=?",(username_entry.get(),pin_entry.get()))
-        if c.fetchall():
-            messagebox.showinfo('Login Sucessful','Welcome')
-            root.destroy()
-            import staff_registration
-        else:
-            messagebox.showinfo('Login unsucessful','Incorrect credentials')
-        
-        conn.commit()
-        conn.close()
-
-    # Create sign in button    
-    sign_in_btn=Button(register_verify,text="LOGIN",font=('Arial','15','bold'),anchor="c",bg='blue',fg='white',width=15,command=managerRegister_login)
-    sign_in_btn.grid(row=3,column=1,columnspan=2)
-    
-
-# Create Frame
+'''Create Frame for login'''
 login_frame = Frame(root,width=230,height=590)
 login_frame.place(x=910,y=172)
 

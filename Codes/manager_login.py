@@ -70,6 +70,7 @@ def login():
 QUIT FUNCTION
 '''
 def quit():
+    '''THis function quits the program. Input is a click on the button with confirmation through a dialogue box and output is the termination of the program'''
     ask=messagebox.askyesno("QUIT","DO YOU WANT TO QUIT?")
     if ask==True:
         root.destroy()

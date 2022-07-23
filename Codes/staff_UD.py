@@ -22,6 +22,7 @@ root1.attributes('-fullscreen', True)
 
 
 def update_func():
+    '''Ths function updates staff data'''
 
     # f_name_editor1
     conn = sqlite3.connect('CRISTY_RECORD.db')
@@ -102,6 +103,7 @@ label.pack(fill=BOTH, expand=YES)
 
 
 def backspace():
+    '''This function return back to the previous page'''
     root.destroy()
     os.system('python staff_login.py')
 
@@ -350,6 +352,7 @@ c = conn.cursor()
 
 
 def edit_update():
+    '''This function updates staff data'''
     conn = sqlite3.connect('CRISTY_RECORD.db')
     c = conn.cursor()
     c.execute("UPDATE Staff SET f_name=?,l_name=?,age=?,gender=?,pin=?,father_name=?,phone=?,address=?,city=?,zipcode=? WHERE Status='active'",
@@ -364,6 +367,7 @@ def edit_update():
 
 
 def edit_delete():
+    '''This function deletes staff data'''
     conn = sqlite3.connect('CRISTY_RECORD.db')
     c = conn.cursor()
 

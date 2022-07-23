@@ -22,7 +22,7 @@ root1.attributes('-fullscreen', True)
 
 
 def update_func():
-
+    '''This function allows manager to update their personal information'''
     # f_name_editor1
     conn = sqlite3.connect('CRISTY_RECORD.db')
     c = conn.cursor()
@@ -56,7 +56,7 @@ def update_func():
 
 
 def root_func():
-
+    '''This functin allows supervisor to update or delete any manager data'''
     f_name_editor1.delete(0, END)
     l_name_editor1.delete(0, END)
     age_editor1.delete(0, END)
@@ -102,7 +102,8 @@ label.pack(fill=BOTH, expand=YES)
 
 
 def backspace():
-    root.destroy()
+    '''THis function return back to the previous page by clicking back button'''
+    root1.destroy()
     os.system('python manager_login.py')
 
 
@@ -350,6 +351,7 @@ c = conn.cursor()
 
 
 def edit_update():
+    '''This function edits the manager data'''
     conn = sqlite3.connect('CRISTY_RECORD.db')
     c = conn.cursor()
     c.execute("UPDATE Manager SET f_name=?,l_name=?,age=?,gender=?,pin=?,father_name=?,phone=?,address=?,city=?,zipcode=? WHERE Status='active'",
@@ -364,6 +366,7 @@ def edit_update():
 
 
 def edit_delete():
+    '''This function deletes the manager data'''
     conn = sqlite3.connect('CRISTY_RECORD.db')
     c = conn.cursor()
 

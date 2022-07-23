@@ -40,7 +40,7 @@ label.pack(fill=BOTH, expand = YES)
 
 
 
-# DATABASES
+'''DATABASES'''
 #create a database or connect to one
 conn=sqlite3.connect('CRISTY_RECORD.db')
 
@@ -71,6 +71,10 @@ def manager_register():
         messagebox.showerror('Registration Faliure',"Pin and repin doesn't match ")
     elif len(phone.get())>10 or len(phone.get())<10:
         messagebox.showerror('Registration Faliure',"Invalid phone number ")
+    elif (phone.get())!=phone.get().isdigit():
+         messagebox.showerror('Registration Faliure',"Enter numbers")  
+    elif len(pin.get())>4 or len(pin.get())<4:
+        messagebox.showerror('Registration failure','Invalid pin')
         
         
     else:
@@ -214,6 +218,7 @@ drop.grid(row=4,column=1,padx=5)
 
 pin=Entry(register_frame,width=45,show="*")
 pin.grid(row=6,column=1,padx=5)
+
 
 re_pin=Entry(register_frame,width=45,show="*")
 re_pin.grid(row=7,column=1,padx=5)
