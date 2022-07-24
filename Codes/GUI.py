@@ -90,18 +90,19 @@ def order_add():
 
         c.execute("INSERT INTO order_table(product_name,quantity,price,total_price) VALUES(?,?,?,?)",(name,qty,price,total))
         cart_treeview.insert('',END,values=(name,price,qty,total))
-
+        total_amount=0
         c.execute("SELECT * FROM order_table")
         data=c.fetchall()
-        total_amount=0
         for i in data:
             total_amount=total_amount+i[4]
+        total_amount_place.config(text='Rs'+str(total_amount))
+        messagebox.showinfo('Success','Added Successfully')
+    else:
+        messagebox.showinfo('Error','Product Not Found')
 
-        total_amount_place=Label(bill_frame,text='Rs'+str(total_amount))
-        total_amount_place.place(x=200,y=400)
-        
 
 
+    
 
 
 
@@ -121,7 +122,48 @@ def order_add():
     quantity_dropdown.delete(0,END)
     total_entry.delete(0,END)
     
+def takeaway():
+    global total_amount
+    order_status_tree.delete(*order_status_tree.get_children())
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    c.execute("INSERT INTO Bill(status,takeaway,bill_total) VALUES('incomplete','Yes',?)",(total_amount,))
 
+    conn.commit()
+    c.execute("SELECT * FROM Bill")
+    data=c.fetchall()
+    for i in data:
+        order_status_tree.insert('',END,values=(i[0],i[3],i[4],i[5]))
+
+    c.execute("DELETE FROM order_table")
+    conn.commit()
+    conn.close()
+    cart_treeview.delete(*cart_treeview.get_children())
+    total_amount=0
+    total_amount_place.config(text='Rs'+str(total_amount))
+    messagebox.showinfo('Success','Order Placed Successfully')
+def Dine_IN():
+    global total_amount
+    order_status_tree.delete(*order_status_tree.get_children())
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    c.execute("INSERT INTO Bill(status,Dine_in,bill_total) VALUES('incomplete','Yes',?)",(total_amount,))
+
+    conn.commit()
+    c.execute("SELECT * FROM Bill")
+    data=c.fetchall()
+    for i in data:
+        order_status_tree.insert('',END,values=(i[0],i[3],i[4],i[5]))
+
+    c.execute("DELETE FROM order_table")
+    conn.commit()
+    conn.close()
+    cart_treeview.delete(*cart_treeview.get_children())
+    total_amount=0
+    total_amount_place.config(text='Rs'+str(total_amount))
+    messagebox.showinfo('Success','Order Placed Successfully')
+
+        
 
 '''FRAMES for different sections'''
 '''frame for date/time'''
@@ -208,8 +250,31 @@ delete_box_label.grid(row=10,column=0,pady=2)
 delete_box=Entry(order_frame,width=32,bg='grey',fg='white')
 delete_box.grid(row=11,column=0,pady=2)
 
+def delete():
+    global total_amount
+    selected_item=cart_treeview.selection()[0]
+    item=cart_treeview.item(selected_item)['values'][0]
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    c.execute("DELETE FROM order_table WHERE product_name=?",(item,))
+    conn.commit()
+    conn.close()
+    cart_treeview.delete(*cart_treeview.get_children())
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    c.execute("SELECT * FROM order_table")
+    data=c.fetchall()
+    total_amount=0
+    for i in data:
+        cart_treeview.insert('',END,values=(i[1],i[2],i[3],i[4]))
+        total_amount+=int(i[4])
+    total_amount_place.config(text='Rs'+str(total_amount))
+    conn.commit()
+    conn.close()
+    messagebox.showinfo('Success','Deleted Successfully')
+
 # Create delete button
-delete_box_btn=Button(order_frame,text="DELETE",font=('Arial','15','bold'),bg='red',width=16,command=NONE)
+delete_box_btn=Button(order_frame,text="DELETE",font=('Arial','15','bold'),bg='red',width=16,command=delete)
 delete_box_btn.grid(row=12,column=0)
 
 # Create update button
@@ -255,6 +320,15 @@ cart_treeview.place(x=0,y=0)
 
 total_amount_label=Label(bill_frame,text='Total amount :')
 total_amount_label.place(x=0,y=400)
+
+total_amount_place=Label(bill_frame,text='Rs'+str(0))
+total_amount_place.place(x=200,y=400)
+
+takeaway_btn=Button(bill_frame,text='Takeaway',font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=takeaway)
+takeaway_btn.place(x=0,y=450)
+
+Dine_IN_btn=Button(bill_frame,text='Dine IN',font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=Dine_IN)
+Dine_IN_btn.place(x=200,y=450)
 '''
 TAB frame'''
 tab_frame = Frame(root,width=800,height=600)
@@ -473,8 +547,52 @@ drinks6_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=2
 drinks6_label.grid(row=3,column=2)
 print(product_entry.get())
 
+'''
+Order Status Tab
+'''
 
-    
-    
+
+columns=('Bill ID','Status','Takeaway','Dine In')
+order_status_tree=ttk.Treeview(orderStatus_tab,columns=columns,show='headings')
+order_status_tree.place(x=50,y=10)
+order_status_tree.column("Bill ID",width=100,anchor='center')
+order_status_tree.column("Status",width=200,anchor='center')
+order_status_tree.column("Takeaway",width=100,anchor='center')
+order_status_tree.column("Dine In",width=100,anchor='center')
+
+order_status_tree.heading("Bill ID",text="Bill ID")
+order_status_tree.heading("Status",text="Status")
+order_status_tree.heading("Takeaway",text="Takeaway")
+order_status_tree.heading("Dine In",text="Dine In")
+
+
+conn=sqlite3.connect('CRISTY_RECORD.db')
+c=conn.cursor()
+c.execute("SELECT * FROM Bill")
+for i in c.fetchall():
+    order_status_tree.insert("",END,values=(i[0],i[3],i[4],i[5]))
+conn.commit()
+conn.close()
+
+def complete_order():
+    selected_item=order_status_tree.selection()[0]
+    selected_bill_id=order_status_tree.item(selected_item)['values'][0]
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    c.execute("UPDATE Bill SET status='Complete' WHERE Bill_ID=?",(selected_bill_id,))
+    conn.commit()
+    conn.close()
+    order_status_tree.delete(*order_status_tree.get_children())
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    c.execute("SELECT * FROM Bill")
+    for i in c.fetchall():
+        order_status_tree.insert("",END,values=(i[0],i[3],i[4],i[5]))
+    conn.commit()
+    conn.close()
+    messagebox.showinfo("Success","Order Completed")
+
+complete_order_button=Button(orderStatus_tab,text="Complete Order",font=('Arial','11','bold'),bg='white',command=complete_order)
+complete_order_button.place(x=50,y=400)
 #call mainloop to keep the window visible
 mainloop()

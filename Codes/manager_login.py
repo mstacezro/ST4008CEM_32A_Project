@@ -397,7 +397,7 @@ def register_validate():
 top_frame = Frame(root,width=900,height=100)
 top_frame.place(x=970,y=10)
 
-'''OUIT button '''
+'''QUIT button '''
 program_quit=Image.open("img/quit.png")
 resized_logout_image=program_quit.resize((90,90))
 converted_logout_image=ImageTk.PhotoImage(resized_logout_image)

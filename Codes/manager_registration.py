@@ -64,25 +64,12 @@ def manager_register():
     c=conn.cursor()
 
     '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
-    
-    if f_name.get()=='' or l_name.get=='' or age.get()=='' or pin.get()=='' or re_pin.get()=='' or father_name.get()=='' or phone.get()=='' or address.get()=='' or city.get()=='' or zipcode.get()=='' or gender=='Gender' :
-        messagebox.showerror('Registration Faliure','Please fill all the details')
-    elif pin.get()!=re_pin.get():
-        messagebox.showerror('Registration Faliure',"Pin and repin doesn't match ")
-    elif len(phone.get())>10 or len(phone.get())<10:
-        messagebox.showerror('Registration Faliure',"Invalid phone number ")
-    elif (phone.get())!=phone.get().isdigit():
-         messagebox.showerror('Registration Faliure',"Enter numbers")  
-    elif len(pin.get())>4 or len(pin.get())<4:
-        messagebox.showerror('Registration failure','Invalid pin')
-        
-        
-    else:
-            
+    def insert():
+
         #the values of attributes is obtained by .get() from respective entry box
         c.execute("INSERT INTO Manager(f_name,l_name,age,pin,father_name,phone,address,city,zipcode,gender) VALUES(?,?,?,?,?,?,?,?,?,?)",
-                  (f_name.get(),l_name.get(),int(age.get()),pin.get(),father_name.get(),
-                   phone.get(),address.get(),city.get(),zipcode.get(),gender.get()))
+                (f_name.get(),l_name.get(),int(age.get()),pin.get(),father_name.get(),
+                phone.get(),address.get(),city.get(),zipcode.get(),gender.get()))
         # if pin.get()==re_pin.get():
         #     #messagebox to show when datas are added 
         #     messagebox.showinfo("Success","New manager is registered.")
@@ -94,27 +81,44 @@ def manager_register():
         import manager_login
 
 
-    '''
-    Once you are done with your changes and you want to commit the changes 
-    then call .commit() method on connection object 
-    '''
-    #commit changes
-    conn.commit()
-    #close connection
-    conn.close()
+        '''
+        Once you are done with your changes and you want to commit the changes 
+        then call .commit() method on connection object 
+        '''
+        #commit changes
+        conn.commit()
+        #close connection
+        conn.close()
 
-    #clear the text boxes
-    f_name.delete(0,END)
-    l_name.delete(0,END)
-    age.delete(0,END)
-    # gender.delete(0,END)
-    pin.delete(0,END)
-    re_pin.delete(0,END)
-    father_name.delete(0,END)
-    phone.delete(0,END)
-    address.delete(0,END)
-    city.delete(0,END)
-    zipcode.delete(0,END)
+        #clear the text boxes
+        f_name.delete(0,END)
+        l_name.delete(0,END)
+        age.delete(0,END)
+        # gender.delete(0,END)
+        pin.delete(0,END)
+        re_pin.delete(0,END)
+        father_name.delete(0,END)
+        phone.delete(0,END)
+        address.delete(0,END)
+        city.delete(0,END)
+        zipcode.delete(0,END)
+
+    if f_name.get()=='' or l_name.get=='' or age.get()=='' or pin.get()=='' or re_pin.get()=='' or father_name.get()=='' or phone.get()=='' or address.get()=='' or city.get()=='' or zipcode.get()=='' or gender=='Gender' :
+        messagebox.showerror('Registration Faliure','Please fill all the details')
+    elif pin.get()!=re_pin.get():
+        messagebox.showerror('Registration Faliure',"Pin and repin doesn't match ")
+    elif len(phone.get())>10 or len(phone.get())<10:
+        messagebox.showerror('Registration Faliure',"Invalid phone number ")
+    elif len(pin.get())>4 or len(pin.get())<4:
+        messagebox.showerror('Registration failure','Invalid pin')
+        
+    else:
+        try:
+            int(phone.get())
+            insert()
+            
+        except:
+            messagebox.showinfo('Error','Not a number')
 
 '''FRAME'''
 '''Arrangement by GRID'''
