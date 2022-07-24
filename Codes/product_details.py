@@ -85,107 +85,70 @@ def product_add():
     p_name.delete(0,END)
     p_price.delete(0,END)
 
-def update():
-    '''
-    UPDATE Query is used to modify the existing records in a table. 
-    You can use WHERE clause with UPDATE query to update selected rows, 
-    otherwise all the rows would be updated.
-    '''
-    #connect to database
-
-    conn=sqlite3.connect('Products.db')
-    #create cursor
-    c=conn.cursor()
-    
-    #retrieve the row number of data to be updated by using .get() from entry box
-    record_id=delete_box.get()
-
-#update the data from the update window into product_details window
-    c.execute("""Update Products SET
-    p_name=:product_name,
-    p_price=:product_price,
-    WHERE oid=:oid""",
-    {
-        'product_name':p_name_editor.get(),
-        'product_price':p_price_editor.get(),
-        'oid':record_id
-    })
-
-  
-
-    conn.commit()
-    conn.close()
-
-    #destroying all the data and closing window
-    editor.destroy()
-
 
 def delete():
-    '''
-    DELETE Query is used to delete the existing records from a table.
-    You can use WHERE clause with DELETE query to delete the selected rows, 
-    otherwise all the records would be deleted.
-    '''
-    #connect to database
-    conn=sqlite3.connect('Products.db')
-    
-    #create cursor
+    conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
-
-    #delete the unnecessary row which is obtained using .get()
-    c.execute("DELETE FROM product_details WHERE oid="+delete_box.get())
-
-    #inform the product_details that the data row is deleted
-    print("Deleted")
-
-    #messagebox to show when datas are deleted
-    messagebox.showinfo("Success","Record has been deleted")
-
-    #clears the delete box
-    delete_box.delete(0,END)
-
-    #commit changes
-    conn.commit()
-    conn.close()
+    c.execute("SELECT * FROM Product WHERE product_id=?",(delete_box.get(),))
+    data=c.fetchall()
+    if data==[]:
+        messagebox.showinfo("Error","Product is not found.")
+    else:
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+        c.execute("DELETE FROM Product WHERE product_id=?",(delete_box.get(),))
+        conn.commit()
+        conn.close()
+        delete_box.delete(0,END)
+        messagebox.showinfo("Success","Product is deleted.")
 
 
 def edit():
-    '''
-    This block of function is opened when update is clicked in product_details window
-    after required row is determined. 
-    If row is not specified, it opens an empty window.
-    '''
-    #new window editor is created with specific designs,backgrounds
-
-    #global identifier to enable modification 
-    global editor
-
-   
-
-    #connect to main database
-    conn=sqlite3.connect('Products.db')
+    global p_name_editor,p_price_editor,top
+    conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
+    c.execute("SELECT * FROM Product WHERE product_id=?",(delete_box.get(),))
+    data=c.fetchall()
+    if data==[]:
+        messagebox.showinfo("Error","Product is not found.")
+    else:
+        top=Toplevel()
+        top.title("Edit Product")
+        top.configure(bg='#B1FB17')
+        p_name_label_editor=Label(top,text="Product Name",font=('arial',12,'bold'),bg='#B1FB17')
+        p_name_label_editor.grid(row=0,column=0,sticky=W)
+        p_name_editor=Entry(top,font=('arial',12,'bold'),bg='#B1FB17')
+        p_name_editor.grid(row=0,column=1,sticky=W)
+        p_price_label_editor=Label(top,text="Product Price",font=('arial',12,'bold'),bg='#B1FB17')
+        p_price_label_editor.grid(row=1,column=0,sticky=W)
+        p_price_editor=Entry(top,width=30,font=('arial',12,'bold'),bg='#B1FB17')
+        p_price_editor.grid(row=1,column=1,padx=20,pady=20)
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+        c.execute("SELECT * FROM product WHERE product_id=?",(delete_box.get(),))
+        records=c.fetchall()
+        for i in records:
+            p_name_editor.insert(0,i[0])
+            p_price_editor.insert(0,i[1])
 
-    #SELECT retrieves all data respective to the row in given box with .get()
-    record_id=delete_box.get()
-    c.execute("SELECT * FROM product_details WHERE oid="+record_id)
-    records=c.fetchall()
+        edit_btn=Button(top,text="Update",command=update,font=('arial',12,'bold'),bg='#B1FB17')
+        edit_btn.grid(row=2,column=1,sticky=W)
+        conn.commit()
+        conn.close()
+        top.mainloop()
+def update():
+    conn=sqlite3.connect('CRISTY_RECORD.db')
+    c=conn.cursor()
+    c.execute("UPDATE Product SET product_name=?,product_price=? WHERE product_id=?",(p_name_editor.get(),p_price_editor.get(),delete_box.get()))
+    conn.commit()
+    conn.close()
+    p_name_editor.delete(0,END)
+    p_price_editor.delete(0,END)
+    messagebox.showinfo("Success","Product is updated.")
+    delete_box.delete(0,END)
+    top.destroy()
 
-#global editors for modification
-    global p_name_editor
-    global p_price_editor
-    
-    
 
-    #the data to be updated are recorded in 
-    # respective attribute noted by index numbers in  database
-    for record in records:
-        p_name_editor.insert(0,record[0])
-        p_price_editor.insert(0,record[1])
-
-    #update button for the update dialog box
-    edit_btn=Button(product_frame,text="Update",bg='#046307',fg='white',command=update)
-    edit_btn.grid(row=8,column=0,pady=10,padx=10,ipadx=100)
 
 def product_query():
     '''
