@@ -34,6 +34,7 @@ def backspace():
         if c.fetchall():
             c.execute("UPDATE Staff SET status='inactive'")
             conn.commit()
+            messagebox.showinfo('Success','Logout Successfully')
             root.destroy()
             os.system('python staff_login.py')
         conn.commit()
@@ -80,8 +81,9 @@ def order_add():
     '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
     #the values of attributes is obtained by .get() from respective entry box
     c.execute("SELECT * FROM Product WHERE product_name=? ",(product_entry.get(),))
-    if c.fetchall:
-        data=c.fetchall()
+    
+    data=c.fetchall()
+    if data:
         for i in data:
             name=i[0]
             price=i[1]
@@ -118,30 +120,36 @@ def order_add():
 
     #clear the text boxes
     product_entry.delete(0,END)
-    rate_entry.delete(0,END)
+
     quantity_dropdown.delete(0,END)
-    total_entry.delete(0,END)
+
     
 def takeaway():
     global total_amount
-    order_status_tree.delete(*order_status_tree.get_children())
     conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
-    c.execute("INSERT INTO Bill(status,takeaway,bill_total) VALUES('incomplete','Yes',?)",(total_amount,))
+    c.execute("SELECT * FROM order_table")
+    if c.fetchall():
+        order_status_tree.delete(*order_status_tree.get_children())
+        conn=sqlite3.connect('CRISTY_RECORD.db')
+        c=conn.cursor()
+        c.execute("INSERT INTO Bill(status,takeaway,bill_total) VALUES('incomplete','Yes',?)",(total_amount,))
 
-    conn.commit()
-    c.execute("SELECT * FROM Bill")
-    data=c.fetchall()
-    for i in data:
-        order_status_tree.insert('',END,values=(i[0],i[3],i[4],i[5]))
+        conn.commit()
+        c.execute("SELECT * FROM Bill")
+        data=c.fetchall()
+        for i in data:
+            order_status_tree.insert('',END,values=(i[0],i[3],i[4],i[5]))
 
-    c.execute("DELETE FROM order_table")
-    conn.commit()
-    conn.close()
-    cart_treeview.delete(*cart_treeview.get_children())
-    total_amount=0
-    total_amount_place.config(text='Rs'+str(total_amount))
-    messagebox.showinfo('Success','Order Placed Successfully')
+        c.execute("DELETE FROM order_table")
+        conn.commit()
+        conn.close()
+        cart_treeview.delete(*cart_treeview.get_children())
+        total_amount=0
+        total_amount_place.config(text='Rs'+str(total_amount))
+        messagebox.showinfo('Success','Order Placed Successfully')
+    else:
+        messagebox.showinfo('Failure','Empty cart')
 def Dine_IN():
     global total_amount
     order_status_tree.delete(*order_status_tree.get_children())
@@ -220,11 +228,6 @@ product_label.grid(row=1,column=0,pady=10)
 product_entry=Entry(order_frame,textvar=scvalue, width=30)
 product_entry.grid(row=2,column=0,pady=10)
 
-rate_label=Label(order_frame, text="Rate",font=('Arial','11','bold'),width=30,bg='grey')
-rate_label.grid(row=3,column=0,pady=10)
-
-rate_entry=Entry(order_frame,width=30)
-rate_entry.grid(row=4,column=0,pady=10)
 
 quantity_label=Label(order_frame, text="Quantity",font=('Arial','11','bold'),width=30,bg='grey')
 quantity_label.grid(row=5,column=0,pady=10)
@@ -234,21 +237,12 @@ quantity_dropdown=ttk.Combobox(order_frame,values=quantity_list,state='readonly'
 quantity_dropdown.current(0)
 quantity_dropdown.grid(row=6,column=0,pady=10)
 
-total_label=Label(order_frame, text="Total cost",font=('Arial','11','bold'),width=30,bg='grey')
-total_label.grid(row=7,column=0,pady=10)
-
-total_entry=Entry(order_frame,width=30)
-total_entry.grid(row=8,column=0,pady=10)
 
 # Create add button
 add_box_btn=Button(order_frame,text="ADD",font=('Arial','15','bold'),bg='blue',fg='white',width=16,command=order_add)
-add_box_btn.grid(row=9,column=0 )
+add_box_btn.grid(row=9,column=0,pady=10 )
 
-delete_box_label=Label(order_frame,text="ID-delete/update",width=15, anchor="w",bg="red",fg='black')
-delete_box_label.grid(row=10,column=0,pady=2)
 
-delete_box=Entry(order_frame,width=32,bg='grey',fg='white')
-delete_box.grid(row=11,column=0,pady=2)
 
 def delete():
     global total_amount
@@ -275,11 +269,14 @@ def delete():
 
 # Create delete button
 delete_box_btn=Button(order_frame,text="DELETE",font=('Arial','15','bold'),bg='red',width=16,command=delete)
-delete_box_btn.grid(row=12,column=0)
+delete_box_btn.grid(row=12,column=0,pady=10)
 
-# Create update button
-edit_box_btn=Button(order_frame,text="UPDATE",font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=NONE)
-edit_box_btn.grid(row=13,column=0 )
+order_photo=Image.open("img/gui_order.png")
+size_order_photo=order_photo.resize((300,300))
+converted_order_image=ImageTk.PhotoImage(size_order_photo)
+
+order_photo_label=Label(order_frame,image=converted_order_image)
+order_photo_label.grid(row=13,column=0)
 
 
 def clear():
@@ -293,19 +290,19 @@ def clear():
     conn.close()
 # Create clear button
 clear_box_btn=Button(order_frame,text="CLEAR",font=('Arial','15','bold'),bg='yellow',fg='red',width=16,command=clear)
-clear_box_btn.grid(row=14,column=0 )
+clear_box_btn.grid(row=14,column=0,pady=10 )
 
 """ Frame for billing"""
 bill_frame = Frame(root,width=600,height=800)
-bill_frame.place(x=960,y=160)
+bill_frame.place(x=940,y=160)
 
 columns=('Product','Rate','Quantity','Total')
 cart_treeview=ttk.Treeview(bill_frame,columns=columns,show='headings',height=18)
 
-cart_treeview.column('#1',anchor=CENTER,width=200)
-cart_treeview.column('# 2',anchor=CENTER,stretch=NO,width=80)
+cart_treeview.column('#1',anchor=CENTER,width=150)
+cart_treeview.column('# 2',anchor=CENTER,stretch=NO,width=30)
 cart_treeview.column('# 3',anchor=CENTER,stretch=NO,width=30)
-cart_treeview.column('# 2',anchor=CENTER,stretch=NO,width=100)
+cart_treeview.column('# 2',anchor=CENTER,stretch=NO,width=50)
 
 
 # define headings
@@ -324,10 +321,10 @@ total_amount_label.place(x=0,y=400)
 total_amount_place=Label(bill_frame,text='Rs'+str(0))
 total_amount_place.place(x=200,y=400)
 
-takeaway_btn=Button(bill_frame,text='Takeaway',font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=takeaway)
+takeaway_btn=Button(bill_frame,text='Takeaway',font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=takeaway,padx=5,pady=50)
 takeaway_btn.place(x=0,y=450)
 
-Dine_IN_btn=Button(bill_frame,text='Dine IN',font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=Dine_IN)
+Dine_IN_btn=Button(bill_frame,text='Dine IN',font=('Arial','15','bold'),bg='#046307',fg='white',width=16,command=Dine_IN, padx=5,pady=50)
 Dine_IN_btn.place(x=200,y=450)
 '''
 TAB frame'''
@@ -358,7 +355,7 @@ resized_burger1=burger1.resize((200,150))
 converted_burger1=ImageTk.PhotoImage(resized_burger1)
 
 burger1=Button(burger_tab,image=converted_burger1, text="Buff Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput('Buff Burger'))
-burger1.grid(row=0,column=0,padx=2,pady=2)
+burger1.grid(row=0,column=0,padx=2,pady=10)
 
 burger1_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger1_label.grid(row=1,column=0)
@@ -369,7 +366,7 @@ resized_burger2=burger2.resize((200,150))
 converted_burger2=ImageTk.PhotoImage(resized_burger2)
 
 burger1=Button(burger_tab,image=converted_burger2, text="Chicken Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Burger"))
-burger1.grid(row=0,column=1,padx=2,pady=2)
+burger1.grid(row=0,column=1,padx=2,pady=10)
 
 
 burger2_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -380,7 +377,7 @@ resized_burger3=burger3.resize((200,150))
 converted_burger3=ImageTk.PhotoImage(resized_burger3)
 
 burger1=Button(burger_tab,image=converted_burger3, text="Egg Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Egg Burger"))
-burger1.grid(row=2,column=0,padx=2,pady=2)
+burger1.grid(row=2,column=0,padx=2,pady=10)
 
 
 burger3_label=Label(burger_tab, text="Rs 150",font=('Arial','11','bold'),width=22,bg='white',pady=20)
@@ -391,7 +388,7 @@ resized_burger4=burger4.resize((200,150))
 converted_burger4=ImageTk.PhotoImage(resized_burger4)
 
 burger1=Button(burger_tab,image=converted_burger4, text="Fish Burger ",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fish Burger"))
-burger1.grid(row=0,column=2,padx=2,pady=2)
+burger1.grid(row=0,column=2,padx=2,pady=10)
 
 burger4_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger4_label.grid(row=1,column=2)
@@ -401,7 +398,7 @@ resized_burger5=burger5.resize((200,150))
 converted_burger5=ImageTk.PhotoImage(resized_burger5)
 
 burger1=Button(burger_tab,image=converted_burger5, text="Veg Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Veg Burger"))
-burger1.grid(row=2,column=1,padx=2,pady=2)
+burger1.grid(row=2,column=1,padx=2,pady=10)
 
 burger5_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger5_label.grid(row=3,column=1)
@@ -411,7 +408,7 @@ resized_burger6=burger6.resize((200,150))
 converted_burger6=ImageTk.PhotoImage(resized_burger6)
 
 burger1=Button(burger_tab,image=converted_burger6, text="Pork Burger",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Pork Burger"))
-burger1.grid(row=2,column=2,padx=2,pady=2)
+burger1.grid(row=2,column=2,padx=2,pady=10)
 
 burger6_label=Label(burger_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 burger6_label.grid(row=3,column=2)
@@ -423,7 +420,7 @@ resized_sideDish1=sideDish1.resize((200,150))
 converted_sideDish1=ImageTk.PhotoImage(resized_sideDish1)
 
 sideDish1=Button(sideDish_tab,image=converted_sideDish1, text="Fries",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fries"))
-sideDish1.grid(row=0,column=0,padx=2,pady=2)
+sideDish1.grid(row=0,column=0,padx=2,pady=10)
 
 sideDish1_label=Label(sideDish_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish1_label.grid(row=1,column=0)
@@ -433,7 +430,7 @@ resized_sideDish2=sideDish2.resize((200,150))
 converted_sideDish2=ImageTk.PhotoImage(resized_sideDish2)
 
 sideDish2=Button(sideDish_tab,image=converted_sideDish2, text="Chicken Wings",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Wings"))
-sideDish2.grid(row=0,column=1,padx=2,pady=2)
+sideDish2.grid(row=0,column=1,padx=2,pady=10)
 
 sideDish2_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish2_label.grid(row=1,column=1)
@@ -444,7 +441,7 @@ resized_sideDish3=sideDish3.resize((200,150))
 converted_sideDish3=ImageTk.PhotoImage(resized_sideDish3)
 
 sideDish3=Button(sideDish_tab,image=converted_sideDish3, text="Nuggets",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Nuggets"))
-sideDish3.grid(row=0,column=2,padx=2,pady=2)
+sideDish3.grid(row=0,column=2,padx=2,pady=10)
 
 sideDish3_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish3_label.grid(row=1,column=2)
@@ -455,7 +452,7 @@ resized_sideDish4=sideDish4.resize((200,150))
 converted_sideDish4=ImageTk.PhotoImage(resized_sideDish4)
 
 sideDish4=Button(sideDish_tab,image=converted_sideDish4, text="Apple Pie",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Apple Pie"))
-sideDish4.grid(row=2,column=0,padx=2,pady=2)
+sideDish4.grid(row=2,column=0,padx=2,pady=10)
 
 sideDish4_label=Label(sideDish_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish4_label.grid(row=3,column=0)
@@ -466,7 +463,7 @@ resized_sideDish5=sideDish5.resize((200,150))
 converted_sideDish5=ImageTk.PhotoImage(resized_sideDish5)
 
 sideDish5=Button(sideDish_tab,image=converted_sideDish5, text="BBQ Wrap",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("BBQ Wrap"))
-sideDish5.grid(row=2,column=1,padx=2,pady=2)
+sideDish5.grid(row=2,column=1,padx=2,pady=10)
 
 sideDish5_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish5_label.grid(row=3,column=1)
@@ -477,7 +474,7 @@ resized_sideDish6=sideDish6.resize((200,150))
 converted_sideDish6=ImageTk.PhotoImage(resized_sideDish6)
 
 sideDish6=Button(sideDish_tab,image=converted_sideDish6, text="Chicken Salad",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chicken Salad"))
-sideDish6.grid(row=2,column=2,padx=2,pady=2)
+sideDish6.grid(row=2,column=2,padx=2,pady=10)
 
 sideDish1_label=Label(sideDish_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 sideDish1_label.grid(row=3,column=2)
@@ -490,7 +487,7 @@ resized_drinks1=drinks1.resize((200,150))
 converted_drinks1=ImageTk.PhotoImage(resized_drinks1)
 
 drinks1=Button(drinks_tab,image=converted_drinks1, text="Coke",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Coke"))
-drinks1.grid(row=0,column=0,padx=2,pady=2)
+drinks1.grid(row=0,column=0,padx=2,pady=10)
 
 drinks1_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks1_label.grid(row=1,column=0)
@@ -501,7 +498,7 @@ resized_drinks2=drinks2.resize((200,150))
 converted_drinks2=ImageTk.PhotoImage(resized_drinks2)
 
 drinks2=Button(drinks_tab,image=converted_drinks2, text="Fanta",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Fanta"))
-drinks2.grid(row=0,column=1,padx=2,pady=2)
+drinks2.grid(row=0,column=1,padx=2,pady=10)
 
 drinks2_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks2_label.grid(row=1,column=1)
@@ -511,7 +508,7 @@ resized_drinks3=drinks3.resize((200,150))
 converted_drinks3=ImageTk.PhotoImage(resized_drinks3)
 
 drinks3=Button(drinks_tab,image=converted_drinks3, text="Sprite",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Sprite"))
-drinks3.grid(row=0,column=2,padx=2,pady=2)
+drinks3.grid(row=0,column=2,padx=2,pady=10)
 
 drinks3_label=Label(drinks_tab, text="Rs 100",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks3_label.grid(row=1,column=2)
@@ -521,7 +518,7 @@ resized_drinks4=drinks4.resize((200,150))
 converted_drinks4=ImageTk.PhotoImage(resized_drinks4)
 
 drinks4=Button(drinks_tab,image=converted_drinks4, text="Chocolate Frappe",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chocolate Frappe"))
-drinks4.grid(row=2,column=0,padx=2,pady=2)
+drinks4.grid(row=2,column=0,padx=2,pady=10)
 
 drinks4_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks4_label.grid(row=3,column=0)
@@ -531,7 +528,7 @@ resized_drinks5=drinks5.resize((200,150))
 converted_drinks5=ImageTk.PhotoImage(resized_drinks5)
 
 drinks5=Button(drinks_tab,image=converted_drinks5, text="Chocolate Oreo Frappe",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Chocolate Oreo Frappe"))
-drinks5.grid(row=2,column=1,padx=2,pady=2)
+drinks5.grid(row=2,column=1,padx=2,pady=10)
 
 drinks5_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks5_label.grid(row=3,column=1)
@@ -541,7 +538,7 @@ resized_drinks6=drinks6.resize((200,150))
 converted_drinks6=ImageTk.PhotoImage(resized_drinks6)
 
 drinks6=Button(drinks_tab,image=converted_drinks6, text="Vanilla Frappe",font=('Arial','11','bold'),bg='white',compound='top',pady=20,command=lambda:setTextInput("Vanilla Frappe"))
-drinks6.grid(row=2,column=2,padx=2,pady=2)
+drinks6.grid(row=2,column=2,padx=2,pady=10)
 
 drinks6_label=Label(drinks_tab, text="Rs 200",font=('Arial','11','bold'),width=22,bg='white',pady=20)
 drinks6_label.grid(row=3,column=2)
