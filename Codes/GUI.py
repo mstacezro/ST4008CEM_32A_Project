@@ -25,6 +25,7 @@ root.title("POS")
 root.attributes('-fullscreen',True)
 
 def backspace():
+    '''This function logouts the active user staff. The result is the inactive status of the user'''
     ask=messagebox.askyesno('Logout','DO YOU WANT TO LOGOUT?')
     if ask==True:
         conn=sqlite3.connect('CRISTY_RECORD.db')
@@ -63,14 +64,16 @@ scvalue=StringVar()
 scvalue.set("") #setting initial value of string variable as blank
 
 def setTextInput(text):
+    '''THis function inputs the name of the product in the product entry in order box by clicking the item'''
     product_entry.delete(0,"end")
     product_entry.insert(0, text)
 
 def order_add():
-    global total_amount
+    ''''''
     '''
     This function adds order details as data to the bill table
     '''
+    global total_amount
     qty=quantity_dropdown.get()
     #connect to the database 
     conn=sqlite3.connect('CRISTY_RECORD.db')
@@ -102,12 +105,6 @@ def order_add():
     else:
         messagebox.showinfo('Error','Product Not Found')
 
-
-
-    
-
-
-
    
     '''
     Once you are done with your changes and you want to commit the changes 
@@ -125,6 +122,7 @@ def order_add():
 
     
 def takeaway():
+    '''This function is for choosing takeaway as a delivery'''
     global total_amount
     conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
@@ -151,6 +149,7 @@ def takeaway():
     else:
         messagebox.showinfo('Failure','Empty cart')
 def Dine_IN():
+    '''This function is for choosing dine-in as a delivery'''
     global total_amount
     order_status_tree.delete(*order_status_tree.get_children())
     conn=sqlite3.connect('CRISTY_RECORD.db')
@@ -245,6 +244,7 @@ add_box_btn.grid(row=9,column=0,pady=10 )
 
 
 def delete():
+    '''THis function deletes a product in ongoing order'''
     global total_amount
     selected_item=cart_treeview.selection()[0]
     item=cart_treeview.item(selected_item)['values'][0]
@@ -280,12 +280,13 @@ order_photo_label.grid(row=13,column=0)
 
 
 def clear():
+    '''This functio clears the order bill table'''
     cart_treeview.delete(*cart_treeview.get_children())
     conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
 
     c.execute('DELETE FROM order_table')
-    messagebox.showinfo('Deltete','Delteted Successfully')
+    messagebox.showinfo('Delete','Deleted Successfully')
     conn.commit()
     conn.close()
 # Create clear button
@@ -572,6 +573,7 @@ conn.commit()
 conn.close()
 
 def complete_order():
+    '''This function marks the order as complete after the food is delivred'''
     selected_item=order_status_tree.selection()[0]
     selected_bill_id=order_status_tree.item(selected_item)['values'][0]
     conn=sqlite3.connect('CRISTY_RECORD.db')

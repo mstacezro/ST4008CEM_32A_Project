@@ -41,6 +41,7 @@ label.pack(fill=BOTH, expand = YES)
 
 
 def backspace():
+    '''This function returns back to the previous page'''
     root.destroy()
     os.system('python manager_login.py')
 # DATABASES
@@ -87,6 +88,7 @@ def product_add():
 
 
 def delete():
+    '''This deletes the product data in the table. Input is the product ID and output is the deletion of the data'''
     conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
     c.execute("SELECT * FROM Product WHERE product_id=?",(delete_box.get(),))
@@ -104,6 +106,7 @@ def delete():
 
 
 def edit():
+    '''This function edits the data of the products in the datbase'''
     global p_name_editor,p_price_editor,top
     conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
@@ -137,6 +140,7 @@ def edit():
         conn.close()
         top.mainloop()
 def update():
+    '''THis function updates the database of products'''
     conn=sqlite3.connect('CRISTY_RECORD.db')
     c=conn.cursor()
     c.execute("UPDATE Product SET product_name=?,product_price=? WHERE product_id=?",(p_name_editor.get(),p_price_editor.get(),delete_box.get()))

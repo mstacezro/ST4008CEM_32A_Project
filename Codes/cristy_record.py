@@ -74,7 +74,10 @@ try:
     c.execute("""CREATE TABLE Bill(
         bill_id integer PRIMARY KEY AUTOINCREMENT,
         bill_date text,
-        status text
+        bill_total integer,
+        status text,
+        takeaway text,
+        Dine_In text
     )""")
 
 except:
@@ -95,7 +98,7 @@ try:
 except:
     pass
 
-# c.execute("DROP TABLE IF EXISTS order_table")
+# c.execute("DROP TABLE Bill")
 conn.commit()
 conn.close()
 # mainloop()
