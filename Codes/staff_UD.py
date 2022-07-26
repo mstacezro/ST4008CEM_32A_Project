@@ -374,6 +374,7 @@ def edit_delete():
     c.execute("DELETE FROM Staff WHERE status='active' ")
     conn.commit()
     conn.close()
+    messagebox.showinfo('Success','Deleted Sucessfuuly')
 
 
 '''

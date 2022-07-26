@@ -83,25 +83,44 @@ def order_add():
 
     '''INSERT INTO Statement is used to add new rows of data into a table in the database.'''
     #the values of attributes is obtained by .get() from respective entry box
-    c.execute("SELECT * FROM Product WHERE product_name=? ",(product_entry.get(),))
-    
-    data=c.fetchall()
-    if data:
-        for i in data:
-            name=i[0]
-            price=i[1]
-            total=int(qty)*int(price)
-
-
-        c.execute("INSERT INTO order_table(product_name,quantity,price,total_price) VALUES(?,?,?,?)",(name,qty,price,total))
-        cart_treeview.insert('',END,values=(name,price,qty,total))
-        total_amount=0
-        c.execute("SELECT * FROM order_table")
+    try:
+        c.execute("SELECT * FROM Product WHERE product_name=? ",(product_entry.get(),))
+        
         data=c.fetchall()
-        for i in data:
-            total_amount=total_amount+i[4]
-        total_amount_place.config(text='Rs'+str(total_amount))
-        messagebox.showinfo('Success','Added Successfully')
+        if data:
+            for i in data:
+                name=i[0]
+                price=i[1]
+                total=int(qty)*int(price)
+            c.execute("INSERT INTO order_table(product_name,quantity,price,total_price) VALUES(?,?,?,?)",(name,qty,price,total))
+            cart_treeview.insert('',END,values=(name,price,qty,total))
+            total_amount=0
+            c.execute("SELECT * FROM order_table")
+            data=c.fetchall()
+            for i in data:
+                total_amount=total_amount+i[4]
+            total_amount_place.config(text='Rs'+str(total_amount))
+            messagebox.showinfo('Success','Added Successfully')
+    except:
+        c.execute("SELECT * FROM Product WHERE product_name=? ",(food_dropbox.get(),))
+        
+        data=c.fetchall()
+        if data:
+            for i in data:
+                name=i[0]
+                price=i[1]
+                total=int(qty)*int(price)
+        
+
+            c.execute("INSERT INTO order_table(product_name,quantity,price,total_price) VALUES(?,?,?,?)",(name,qty,price,total))
+            cart_treeview.insert('',END,values=(name,price,qty,total))
+            total_amount=0
+            c.execute("SELECT * FROM order_table")
+            data=c.fetchall()
+            for i in data:
+                total_amount=total_amount+i[4]
+            total_amount_place.config(text='Rs'+str(total_amount))
+            messagebox.showinfo('Success','Added Successfully')
     else:
         messagebox.showinfo('Error','Product Not Found')
 
@@ -271,12 +290,25 @@ def delete():
 delete_box_btn=Button(order_frame,text="DELETE",font=('Arial','15','bold'),bg='red',width=16,command=delete)
 delete_box_btn.grid(row=12,column=0,pady=10)
 
+# Create list
+list_food=[]
+conn=sqlite3.connect('CRISTY_RECORD.db')
+c=conn.cursor()
+
+c.execute('SELECT * FROM Product')
+data=c.fetchall()
+for i in  data:
+    list_food.append(i[0])
+food_dropbox=ttk.Combobox(order_frame,values=list_food,state='readonly',width=30)
+food_dropbox.grid(row=13,column=0)
+food_dropbox.set('Special')
 order_photo=Image.open("img/gui_order.png")
 size_order_photo=order_photo.resize((300,300))
 converted_order_image=ImageTk.PhotoImage(size_order_photo)
 
 order_photo_label=Label(order_frame,image=converted_order_image)
-order_photo_label.grid(row=13,column=0)
+order_photo_label.grid(row=14,column=0)
+
 
 
 def clear():
