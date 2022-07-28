@@ -87,25 +87,24 @@ def order_add():
         c.execute("SELECT * FROM Product WHERE product_name=? ",(product_entry.get(),))
         
         data=c.fetchall()
-        if data:
-            for i in data:
-                name=i[0]
-                price=i[1]
-                total=int(qty)*int(price)
-            c.execute("INSERT INTO order_table(product_name,quantity,price,total_price) VALUES(?,?,?,?)",(name,qty,price,total))
-            cart_treeview.insert('',END,values=(name,price,qty,total))
-            total_amount=0
-            c.execute("SELECT * FROM order_table")
-            data=c.fetchall()
-            for i in data:
-                total_amount=total_amount+i[4]
-            total_amount_place.config(text='Rs'+str(total_amount))
-            messagebox.showinfo('Success','Added Successfully')
+        for i in data:
+            name=i[0]
+            price=i[1]
+            total=int(qty)*int(price)
+        c.execute("INSERT INTO order_table(product_name,quantity,price,total_price) VALUES(?,?,?,?)",(name,qty,price,total))
+        cart_treeview.insert('',END,values=(name,price,qty,total))
+        total_amount=0
+        c.execute("SELECT * FROM order_table")
+        data=c.fetchall()
+        for i in data:
+            total_amount=total_amount+i[4]
+        total_amount_place.config(text='Rs'+(total_amount))
+        messagebox.showinfo('Success','Added Successfully')
     except:
         c.execute("SELECT * FROM Product WHERE product_name=? ",(food_dropbox.get(),))
         
         data=c.fetchall()
-        if data:
+        if data!=[]:
             for i in data:
                 name=i[0]
                 price=i[1]
