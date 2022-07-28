@@ -78,7 +78,7 @@ def manager_register():
         
         messagebox.showinfo("Success","New manager is registered.")
         root.destroy()
-        import manager_login
+        os.system('python manager_login.py')
 
 
         '''
@@ -113,12 +113,7 @@ def manager_register():
         messagebox.showerror('Registration failure','Invalid pin')
         
     else:
-        try:
-            int(phone.get())
-            insert()
-            
-        except:
-            messagebox.showinfo('Error','Not a number')
+        insert()
 
 '''FRAME'''
 '''Arrangement by GRID'''

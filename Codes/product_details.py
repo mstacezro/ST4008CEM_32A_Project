@@ -203,7 +203,7 @@ def product_query():
     # define headings
     tree.heading('p_name', text='Product Name')
     tree.heading('p_price', text='Product Price')
-    tree.heading('Serial_No',text='S.N.')
+    tree.heading('Serial_No',text='ID')
     
 
 

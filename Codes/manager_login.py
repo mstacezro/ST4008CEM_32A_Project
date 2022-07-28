@@ -126,7 +126,7 @@ def manager_query():
     # define headings
     tree.heading('first_name', text='First Name')
     tree.heading('last_name', text='Last Name')
-    tree.heading('Serial_No',text='S.N.')
+    tree.heading('Serial_No',text='ID')
     
     # query_label=Label(info_query,text=print_records, anchor="w")
     # query_label.grid(row=8,column=0,columnspan=4)

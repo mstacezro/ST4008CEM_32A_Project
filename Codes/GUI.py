@@ -121,8 +121,8 @@ def order_add():
                 total_amount=total_amount+i[4]
             total_amount_place.config(text='Rs'+str(total_amount))
             messagebox.showinfo('Success','Added Successfully')
-    else:
-        messagebox.showinfo('Error','Product Not Found')
+        else:
+            messagebox.showinfo('Error','Product Not Found')
 
    
     '''
@@ -279,7 +279,7 @@ def delete():
     data=c.fetchall()
     total_amount=0
     for i in data:
-        cart_treeview.insert('',END,values=(i[1],i[2],i[3],i[4]))
+        cart_treeview.insert('',END,values=(i[1],i[3],i[2],i[4]))
         total_amount+=int(i[4])
     total_amount_place.config(text='Rs'+str(total_amount))
     conn.commit()
